@@ -76,7 +76,7 @@ namespace UnityStandardAssets.Vehicles.Car
         private void Update()
         {
             var previous = m_Rigidbody.velocity;
-            m_Rigidbody.velocity = new Vector3(previous.x, previous.y, 15f);
+            m_Rigidbody.velocity = new Vector3(previous.x, previous.y, 200f);
         }
 
 

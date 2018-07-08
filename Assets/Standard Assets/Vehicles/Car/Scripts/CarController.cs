@@ -69,6 +69,14 @@ namespace UnityStandardAssets.Vehicles.Car
 
             m_Rigidbody = GetComponent<Rigidbody>();
             m_CurrentTorque = m_FullTorqueOverAllWheels - (m_TractionControl*m_FullTorqueOverAllWheels);
+            m_Rigidbody.velocity = new Vector3(0, 0, 15f);
+        }
+
+        // Called every frame
+        private void Update()
+        {
+            var previous = m_Rigidbody.velocity;
+            m_Rigidbody.velocity = new Vector3(previous.x, previous.y, 15f);
         }
 
 

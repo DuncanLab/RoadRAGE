@@ -6,24 +6,27 @@ using UnityEngine;
 // is used for the simulation.
 public class TerrainGenerator : MonoBehaviour {
 
-    // This is the standard chunk we want to load to simulate
+    // This is the standard (prefab) chunk we want to load to simulate
     // an infinite roadway.
     public GameObject BasicTerrainChunk;
 
     public GameObject currTerrain;
 
-    // Keep Track of curr, and previous chunks for GC.
     public GameObject currTerrainChunk;
     public GameObject prevTerrainChunk;
-   
 
+    public List<GameObject> _createdGameObjects;
+   
 	// Use this for initialization.
 	void Start () {
         // Simulation starts with only one chunk.
         currTerrainChunk = GameObject.Find("BasicTerrainChunk1");
         prevTerrainChunk = currTerrainChunk;
-        ;
 
+
+        _createdGameObjects.Add(GameObject.Find("LaneRight1"));
+        _createdGameObjects.Add(GameObject.Find("billboard1"));
+        _createdGameObjects.Add(prevTerrainChunk);
     }
 	
 	// Update is called once per frame.
@@ -35,16 +38,23 @@ public class TerrainGenerator : MonoBehaviour {
         {
             currTerrainChunk = Instantiate(BasicTerrainChunk, new Vector3(0, 0, currTerrain.transform.position.z + 1000f), Quaternion.identity);   
             currTerrain = currTerrainChunk.transform.Find("BaseTerrain").gameObject;
+            _createdGameObjects.Add(prevTerrainChunk);
         }
 
-        // We have left the previous terrain chunk so destroy it.
-        if (transform.position.z - prevTerrainChunk.transform.Find("BaseTerrain").gameObject.transform.position.z > 1000)
+        // We have left the previous terrain chunk, never to return - so destroy all of it.
+        if (transform.position.z - prevTerrainChunk.transform.Find("BaseTerrain").gameObject.transform.position.z > 1100)
         {
-            // TODO : We should garbage collect everything from the previous chunk, not
-            // just the basic terrain.
-            Destroy(prevTerrainChunk);
+            DestroyPreviousChunk();
             prevTerrainChunk = currTerrainChunk;
         }
 
 	}
+
+    private void DestroyPreviousChunk()
+    {
+        for (int i = 0; i < _createdGameObjects.Count; i++)
+        {
+            Destroy(_createdGameObjects[i]);
+        }
+    }
 }

@@ -45,6 +45,7 @@ public class StartController : MonoBehaviour
         // Here we're using: https://github.com/gkngkc/UnityStandaloneFileBrowser because it was easier than rolling our own
         string[] paths = StandaloneFileBrowser.OpenFilePanel("Choose configuration file", "./../config", "json", false);
         configPath = paths[0];
+        inputTextPlaceHold.text = configPath;
     }
 
     public void LoadMainGame()

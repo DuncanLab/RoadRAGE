@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+
+using GD = GameController;
 
 public class CarAutomator : MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class CarAutomator : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
-        m_Rigidbody.velocity = new Vector3(0, 0, 15f);
+        m_Rigidbody.velocity = new Vector3(0, 0, GD.data.GlobalData.MovementSpeed);
     }
 
     // Called every frame
@@ -27,7 +27,7 @@ public class CarAutomator : MonoBehaviour
     {
         // Maintain constant forward velocity
         var previous = m_Rigidbody.velocity;
-        m_Rigidbody.velocity = new Vector3(previous.x, previous.y, 25f);
+        m_Rigidbody.velocity = new Vector3(previous.x, previous.y, GD.data.GlobalData.MovementSpeed);
 
         // Check for left/right input, and change lanes accordingly. 
         // All other movement is restricted for simulation purposes

@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-using GD = GameController;
 
 public class CarAutomator : MonoBehaviour
 {
@@ -15,9 +14,13 @@ public class CarAutomator : MonoBehaviour
     public bool movingRight;
     public bool movingLeft;
 
+    public GameController GD;
+
     // Use this for initialization
     void Start()
     {
+        GD = (GameController) GameObject.Find("GameScriptHolder").GetComponent("GameController");
+
         m_Rigidbody = GetComponent<Rigidbody>();
         m_Rigidbody.velocity = new Vector3(0, 0, GD.data.GlobalData.MovementSpeed);
     }

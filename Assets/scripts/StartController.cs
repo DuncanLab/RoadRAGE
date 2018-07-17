@@ -14,6 +14,8 @@ public class StartController : MonoBehaviour
 
     public GameData data;
 
+    public bool isGameLoaded;
+
     private void Awake()
     {
         DontDestroyOnLoad(transform.gameObject);
@@ -22,6 +24,7 @@ public class StartController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        isGameLoaded = false;
         configPath = Application.dataPath.ToString() + "/config/RoadRage.json";
         Debug.Log(configPath);
 
@@ -32,11 +35,11 @@ public class StartController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float h = CrossPlatformInputManager.GetAxis("Jump");
-        if (h > 0)
-        {
+        bool spacePressed = CrossPlatformInputManager.GetButtonDown("Jump");
+        if (!isGameLoaded && spacePressed)
+       {
             LoadMainGame();
-        }
+       }
     }
 
     public void ChangePath()
@@ -55,6 +58,7 @@ public class StartController : MonoBehaviour
 
         var temp = JsonUtility.FromJson<GameData>(file);
         data = temp;
+        isGameLoaded = true;
         SceneManager.LoadScene("Main");
     }
 }

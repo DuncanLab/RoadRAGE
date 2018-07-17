@@ -20,7 +20,7 @@ public class TerrainGenerator : MonoBehaviour {
 
     // This is the standard (prefab) chunk we want to load to simulate
     // an infinite roadway.
-    public GameObject BasicTerrainChunk;
+    public GameObject road1;
 
     // Prefabs for loading
     public GameObject billboard;
@@ -37,7 +37,7 @@ public class TerrainGenerator : MonoBehaviour {
 	// Use this for initialization.
 	void Start () {
         // Simulation starts with only one chunk.
-        currTerrainChunk = GameObject.Find("BasicTerrainChunk1");
+        currTerrainChunk = GameObject.Find("road1Example");
         prevTerrainChunk = currTerrainChunk;
 
         // Setup objects to load for the next chunk, only load the 
@@ -55,15 +55,15 @@ public class TerrainGenerator : MonoBehaviour {
         };
 
         CreatePrefabsInChunk(_objectsToLoad);
-        _createdGameObjects.Add(prevTerrainChunk);
+       // _createdGameObjects.Add(prevTerrainChunk);
     }
 	
 	// Update is called once per frame.
 	void Update () {
-        var relativePos = transform.position.z - currTerrain.transform.position.z;
+        var relativePos = transform.position.z - currTerrainChunk.transform.position.z;
 
         // We have left the previous terrain chunk, never to return - so destroy all of it.
-        if (transform.position.z - prevTerrainChunk.transform.Find("BaseTerrain").gameObject.transform.position.z > 1100)
+        if (transform.position.z - prevTerrainChunk.transform.position.z > 1005)
         {
             DestroyPreviousChunk();
             prevTerrainChunk = currTerrainChunk;
@@ -72,9 +72,8 @@ public class TerrainGenerator : MonoBehaviour {
         // Generate the next terrain chunk if the car is close enough.
         if (relativePos > 10)
         {
-            currTerrainChunk = Instantiate(BasicTerrainChunk, new Vector3(0, 0, currTerrain.transform.position.z + 1000f), Quaternion.identity);   
-            currTerrain = currTerrainChunk.transform.Find("BaseTerrain").gameObject;
             _createdGameObjects.Add(prevTerrainChunk);
+            currTerrainChunk = Instantiate(road1, new Vector3(0, 0, currTerrainChunk.transform.position.z + 1000f), Quaternion.identity);   
 
             // TODO : replace this with serial lane/billboard loading
             List<string> _objectsToLoad = new List<string>
@@ -101,15 +100,15 @@ public class TerrainGenerator : MonoBehaviour {
         {
             if ("billboard".Equals(objectsToCreate[i]))
             {
-                _createdGameObjects.Add(Instantiate(billboard, new Vector3(BILLBOARD_RIGHT_POS_X, BILLBOARD_RIGHT_POS_Y, BILLBOARD_RIGHT_POS_Z + currTerrain.transform.position.z), Quaternion.Euler(new Vector3(0f, 0f, 90f))));
+                _createdGameObjects.Add(Instantiate(billboard, new Vector3(BILLBOARD_RIGHT_POS_X, BILLBOARD_RIGHT_POS_Y, BILLBOARD_RIGHT_POS_Z + currTerrainChunk.transform.position.z), Quaternion.Euler(new Vector3(0f, 0f, 90f))));
             }
             else if ("LaneRight".Equals(objectsToCreate[i]))
             {
-                _createdGameObjects.Add(Instantiate(LaneRight, new Vector3(RIGHT_LANE_POS_X, RIGHT_LANE_POS_Y, RIGHT_LANE_POS_Z + currTerrain.transform.position.z), Quaternion.Euler(new Vector3(0f, 180f, 0f))));
+                _createdGameObjects.Add(Instantiate(LaneRight, new Vector3(RIGHT_LANE_POS_X, RIGHT_LANE_POS_Y, RIGHT_LANE_POS_Z + currTerrainChunk.transform.position.z), Quaternion.Euler(new Vector3(0f, 180f, 0f))));
             }
             else if ("LaneLeft".Equals(objectsToCreate[i]))
             {
-                _createdGameObjects.Add(Instantiate(LaneLeft, new Vector3(LEFT_LANE_POS_X, LEFT_LANE_POS_Y, LEFT_LANE_POS_Z + currTerrain.transform.position.z), Quaternion.identity));
+                _createdGameObjects.Add(Instantiate(LaneLeft, new Vector3(LEFT_LANE_POS_X, LEFT_LANE_POS_Y, LEFT_LANE_POS_Z + currTerrainChunk.transform.position.z), Quaternion.identity));
             }
         }
     }

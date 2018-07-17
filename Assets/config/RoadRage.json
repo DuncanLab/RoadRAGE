@@ -4,13 +4,13 @@
     "CHARACTER DATA": "CHARACTER DATA----------*********-------------------CHARACTER DATA",
 
     "GlobalData": {
-        "MovementSpeed": 40
+        "MovementSpeed": 30
     },
 
     "BLOCK DATA": "BLOCK DATA---------------------*********--------------------BLOCK DATA",
 
     "BlockOrder": [
-        1,2
+        2
     ],
     "BlockList": [
         {
@@ -28,9 +28,6 @@
             "BlockName": "First block",
             "Notes": "TEST NOTE",
             "TrialOrder": [
-                4,
-                5,
-                6,
                 7
             ]
         }

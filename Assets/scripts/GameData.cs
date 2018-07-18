@@ -56,6 +56,7 @@ public class GameData
     public class Event
     {
         public float SpawnTime; // Time in ms that the event will spawn (measured from trial start).
+        public float DespawnTime; // Time in ms that the event will despawn (measured from trial start).
         public string EventType; // The type of spawn event.
         public int SignId; // The id of the sign to be used (if == sign event).
         public string SpawnSide; // Side of the road/screen for the spawn event to appear.

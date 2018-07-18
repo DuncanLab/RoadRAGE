@@ -98,7 +98,7 @@ public class GameController : MonoBehaviour
         }
 
         // This should check if the current trial's allotted time has passed.
-        else if (currTrialTimer.ElapsedMilliseconds >= Math.Abs(data.currTrial.TimeAllotted * 1000))
+        else if (currTrialTimer.ElapsedMilliseconds >= Math.Abs(data.currTrial.TimeAllotted))
         {
             trialOver = true;
         }

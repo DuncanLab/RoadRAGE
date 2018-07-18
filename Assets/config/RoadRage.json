@@ -86,27 +86,31 @@
                     "TimeToExist": 10000
                 }
             ],
-            "TimeAllotted": 20,
+            "TimeAllotted": 20000,
             "Events": [
                 {
                     "SpawnTime": 1000,
+					"DespawnTime": 4000,
                     "EventType": "Sign",
                     "SignId": 1,
                     "SpawnSide": "R"
                 },
                 {
                     "SpawnTime": 1500,
+					"DespawnTime": 4500,
                     "EventType": "Lane",
                     "SpawnSide": "R"
                 },
                 {
                     "SpawnTime": 2000,
+					"DespawnTime": 5000,
                     "EventType": "Sign",
                     "SignId": 2,
                     "SpawnSide": "L"
                 },
                 {
                     "SpawnTime": 2500,
+					"DespawnTime": 5500,
                     "EventType": "Lane",
                     "SpawnSide": "L"
                 }

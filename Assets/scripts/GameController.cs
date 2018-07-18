@@ -23,9 +23,9 @@ public class GameController : MonoBehaviour
     public GameObject LoadImagePanel;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
-        Debug.Log("Start Called!!");
+        Debug.Log("Awake Called in game controller!!");
         currTrialTimer = new System.Diagnostics.Stopwatch();
 
         // Carry over data.
@@ -131,13 +131,13 @@ public class GameController : MonoBehaviour
         }
 
         // Trial resets and starts from scratch.
-        else
-        {
-            // Reset Scene
-            SceneManager.LoadScene("Main");
+        // else
+        // {
+        // Reset Scene
+        //   SceneManager.LoadScene("Main");
 
-            // Load the appropriate prefabs.
-        }        
+        // Load the appropriate prefabs.
+        //}        
 
         currTrialTimer.Stop();
         currTrialTimer.Reset();

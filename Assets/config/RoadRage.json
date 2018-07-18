@@ -78,15 +78,15 @@
             "Header": "Explore!",
             "Roads": [
                 {
-                    "PrefabName": "road1",
+                    "PrefabName": "road_normal_100m",
                     "TimeToExist": 10000
                 },
                 {
-                    "PrefabName": "road1",
+                    "PrefabName": "road_normal_100m",
                     "TimeToExist": 10000
                 }
             ],
-            "TimeAllotted": 10,
+            "TimeAllotted": 20,
             "Events": [
                 {
                     "SpawnTime": 1000,

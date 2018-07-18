@@ -37,9 +37,9 @@ public class StartController : MonoBehaviour
     {
         bool spacePressed = CrossPlatformInputManager.GetButtonDown("Jump");
         if (!isGameLoaded && spacePressed)
-       {
+        {
             LoadMainGame();
-       }
+        }
     }
 
     public void ChangePath()
@@ -59,6 +59,7 @@ public class StartController : MonoBehaviour
         var temp = JsonUtility.FromJson<GameData>(file);
         data = temp;
         isGameLoaded = true;
-        SceneManager.LoadScene("Main");
+        Debug.Log("Loading main game");
+        SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 }

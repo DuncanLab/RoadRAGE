@@ -10,11 +10,7 @@ using UnityStandardAssets.CrossPlatformInput;
 public class GameController : MonoBehaviour
 {
 
-    public StartController startController;
     public GameData data;
-
-    public int trialOrderIndex;
-    public int blockOrderIndex;
 
     // Game objects
     public GameObject LoadImagePanel;
@@ -31,11 +27,11 @@ public class GameController : MonoBehaviour
         // Init block, trial positions on the first go around
         if (!data.isGameStarted)
         {
-            trialOrderIndex = 0;
-            blockOrderIndex = 0;
+            data.currBlock.trialOrderIndex = 0;
+            data.blockOrderIndex = 0;
 
-            data.currBlock = data.BlockList[data.BlockOrder[blockOrderIndex] - 1];
-            data.currTrial = data.TrialList[data.currBlock.TrialOrder[trialOrderIndex] - 1];
+            data.currBlock = data.BlockList[data.BlockOrder[data.blockOrderIndex] - 1];
+            data.currTrial = data.TrialList[data.currBlock.TrialOrder[data.currBlock.trialOrderIndex] - 1];
             data.currTrial.Timer = new System.Diagnostics.Stopwatch();
 
             data.isGameStarted = true;
@@ -56,10 +52,10 @@ public class GameController : MonoBehaviour
             UnloadCurrentTrial();
 
             // Load next block (if it exists)
-            if (trialOrderIndex + 1 == data.currBlock.TrialOrder.Count)
+            if (data.currBlock.trialOrderIndex + 1 == data.currBlock.TrialOrder.Count)
             {
                 // On the last block so end the simulation
-                if (blockOrderIndex + 1 == data.BlockOrder.Count)
+                if (data.blockOrderIndex + 1 == data.BlockOrder.Count)
                 {
                     Debug.LogWarning("Simulation End!");
                     Application.Quit();
@@ -69,13 +65,13 @@ public class GameController : MonoBehaviour
                 // blocks are remaining, so continue.
                 else
                 {
-                    trialOrderIndex = -1;
-                    blockOrderIndex++;
-                    data.currBlock = data.BlockList[data.BlockOrder[blockOrderIndex] - 1];
+                    data.currBlock.trialOrderIndex = -1;
+                    data.blockOrderIndex++;
+                    data.currBlock = data.BlockList[data.BlockOrder[data.blockOrderIndex] - 1];
                 }
             }
 
-            trialOrderIndex++;
+            data.currBlock.trialOrderIndex++;
             LoadNextTrial();
         }
 
@@ -112,7 +108,7 @@ public class GameController : MonoBehaviour
 
     private void LoadNextTrial()
     {
-        data.currTrial = data.TrialList[data.currBlock.TrialOrder[trialOrderIndex] - 1];
+        data.currTrial = data.TrialList[data.currBlock.TrialOrder[data.currBlock.trialOrderIndex] - 1];
         data.currTrial.Timer = new System.Diagnostics.Stopwatch();
 
         // If the file location variable has been set in the config

@@ -18,6 +18,7 @@ public class GameData
 
     public GlobalGameData GlobalData;
 
+    public int blockOrderIndex;
     public List<int> BlockOrder; // The order of the trial blocks.
 
     public List<Block> BlockList; // All blocks.
@@ -36,6 +37,7 @@ public class GameData
         public int BlockId;
         public string BlockName;
         public string Notes;
+        public int trialOrderIndex;
         public List<int> TrialOrder; // Ordering of trials in the particular block.
     }
 

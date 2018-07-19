@@ -28,7 +28,7 @@
             "BlockName": "First block",
             "Notes": "TEST NOTE",
             "TrialOrder": [
-                7
+                7,7,7
             ]
         }
     ],
@@ -79,14 +79,14 @@
             "Roads": [
                 {
                     "PrefabName": "road_normal_100m",
-                    "TimeToExist": 10000
+                    "TimeToExist": 5000
                 },
                 {
                     "PrefabName": "road_normal_100m",
-                    "TimeToExist": 10000
+                    "TimeToExist": 5000
                 }
             ],
-            "TimeAllotted": 20000,
+            "TimeAllotted": 10000,
             "Events": [
                 {
                     "SpawnTime": 1000,

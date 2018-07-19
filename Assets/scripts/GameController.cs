@@ -34,8 +34,9 @@ public class GameController : MonoBehaviour
             data.currTrial = data.TrialList[data.currBlock.TrialOrder[data.currBlock.trialOrderIndex] - 1];
             data.currTrial.Timer = new System.Diagnostics.Stopwatch();
 
-            data.isGameStarted = true;
+            
             LoadNextTrial();
+            data.isGameStarted = true;
         }
     }
 
@@ -125,7 +126,7 @@ public class GameController : MonoBehaviour
         }
 
         //Trial resets and starts from scratch.
-         else
+         else if (data.isGameStarted)
          {
             //Reset Scene
            SceneManager.LoadScene("Main");

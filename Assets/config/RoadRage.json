@@ -78,15 +78,23 @@
             "Header": "Explore!",
             "Roads": [
                 {
-                    "PrefabName": "road_normal_100m",
-                    "TimeToExist": 5000
+                    "PrefabName": "road_forest_100m",
+                    "TimeToExist": 20000
                 },
                 {
-                    "PrefabName": "road_normal_100m",
-                    "TimeToExist": 5000
+                    "PrefabName": "road_mountain_100m",
+                    "TimeToExist": 20000
+                },
+				{
+                    "PrefabName": "road_forest_100m",
+                    "TimeToExist": 20000
+                },
+                {
+                    "PrefabName": "road_mountain_100m",
+                    "TimeToExist": 20000
                 }
             ],
-            "TimeAllotted": 10000,
+            "TimeAllotted": 80000,
             "Events": [
                 {
                     "SpawnTime": 1000,
@@ -97,7 +105,6 @@
                 },
                 {
                     "SpawnTime": 1500,
-					"DespawnTime": 4500,
                     "EventType": "Lane",
                     "SpawnSide": "R"
                 },
@@ -110,7 +117,6 @@
                 },
                 {
                     "SpawnTime": 2500,
-					"DespawnTime": 5500,
                     "EventType": "Lane",
                     "SpawnSide": "L"
                 }

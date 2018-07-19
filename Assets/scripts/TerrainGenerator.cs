@@ -45,6 +45,7 @@ public class TerrainGenerator : MonoBehaviour
     // Use this for initialization.
     void Start()
     {
+        Debug.Log("terrain gen start");
         // Carry over data.
         data = Toolbox.Instance.data;
 
@@ -78,10 +79,10 @@ public class TerrainGenerator : MonoBehaviour
         // Generate the required chunks in the current prefab spec.
         if (CurrentRoadPrefab < data.currTrial.Roads.Count)
         {
-            GameObject RoadPrefab = (GameObject)Resources.Load("prefabs/" + data.currTrial.Roads[0].PrefabName);
+            GameObject RoadPrefab = (GameObject)Resources.Load("prefabs/" + data.currTrial.Roads[CurrentRoadPrefab].PrefabName);
 
             // Here we want to instantiate enough chunks to last the time specified in the config
-            var ChunksRequired = CalculateNumberOfChunksRequired(data.currTrial.Roads[0].TimeToExist, data.GlobalData.MovementSpeed, 100);
+            var ChunksRequired = CalculateNumberOfChunksRequired(data.currTrial.Roads[CurrentRoadPrefab].TimeToExist, data.GlobalData.MovementSpeed, 100);
             for (int i = 0; i < ChunksRequired; i++)
             {
                 currTerrainChunk = Instantiate(RoadPrefab, new Vector3(0, 0, currTerrainChunk.transform.position.z + 100f), Quaternion.identity);
@@ -104,14 +105,25 @@ public class TerrainGenerator : MonoBehaviour
     // TODO : refactor.
     private void LoadLanes()
     {
+        float ChunkCalculationTime;
+
         for (int i = 0; i < data.currTrial.Events.Count; i++)
         {
             GameData.Event CurrEvent = data.currTrial.Events[i];
             if (CurrEvent.EventType.ToLower().Equals("lane"))
             {
+                if (CurrEvent.DespawnTime == 0f)
+                {
+                    ChunkCalculationTime = data.currTrial.TimeAllotted;
+                } else
+                {
+                    ChunkCalculationTime = CurrEvent.DespawnTime - CurrEvent.SpawnTime;
+                }
+
+
                 if (CurrEvent.SpawnSide.ToLower().Equals("r"))
                 {
-                    var ChunksRequired = CalculateNumberOfChunksRequired(CurrEvent.DespawnTime - CurrEvent.SpawnTime, data.GlobalData.MovementSpeed, 100);
+                    var ChunksRequired = CalculateNumberOfChunksRequired(ChunkCalculationTime, data.GlobalData.MovementSpeed, 100);
                     for (int j = 0; j <= ChunksRequired; j++)
                     {
                         float SpawnDistance = CalculateLaneSpawnDistance(CurrEvent.SpawnTime, data.GlobalData.MovementSpeed);
@@ -121,7 +133,7 @@ public class TerrainGenerator : MonoBehaviour
                 }
                 else
                 {
-                    var ChunksRequired = CalculateNumberOfChunksRequired(CurrEvent.DespawnTime - CurrEvent.SpawnTime, data.GlobalData.MovementSpeed, 100);
+                    var ChunksRequired = CalculateNumberOfChunksRequired(ChunkCalculationTime, data.GlobalData.MovementSpeed, 100);
                     for (int j = 0; j <= ChunksRequired; j++)
                     {
                         float SpawnDistance = CalculateLaneSpawnDistance(CurrEvent.SpawnTime, data.GlobalData.MovementSpeed);

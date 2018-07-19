@@ -50,7 +50,7 @@ public class CarAutomator : MonoBehaviour
                 {
                     movingRight = true;
                     movingLeft = false;
-                    transform.position = new Vector3(previousPos.x + 0.06f, previousPos.y, previousPos.z);
+                    transform.position = new Vector3(previousPos.x + 0.03f, previousPos.y, previousPos.z);
                 }
                 else
                 {
@@ -73,7 +73,7 @@ public class CarAutomator : MonoBehaviour
                 {
                     movingLeft = true;
                     movingRight = false;
-                    transform.position = new Vector3(previousPos.x - 0.06f, previousPos.y, previousPos.z);
+                    transform.position = new Vector3(previousPos.x - 0.03f, previousPos.y, previousPos.z);
                 }
                 else
                 {

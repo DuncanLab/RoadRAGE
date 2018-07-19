@@ -324,7 +324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6cc01e77eef3804993e8977982cd5c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startController: {fileID: 0}
   data:
     OutputTimesPerSecond: 0
     isGameStarted: 0
@@ -341,15 +340,15 @@ MonoBehaviour:
       BlockId: 0
       BlockName: 
       Notes: 
+      trialOrderIndex: 0
       TrialOrder: 
     GlobalData:
       MovementSpeed: 0
+    blockOrderIndex: 0
     BlockOrder: 
     BlockList: []
     TrialList: []
     currTrialOrder: 
-  trialOrderIndex: 0
-  blockOrderIndex: 0
   LoadImagePanel: {fileID: 1034528026}
 --- !u!114 &672235953
 MonoBehaviour:
@@ -378,9 +377,11 @@ MonoBehaviour:
       BlockId: 0
       BlockName: 
       Notes: 
+      trialOrderIndex: 0
       TrialOrder: 
     GlobalData:
       MovementSpeed: 0
+    blockOrderIndex: 0
     BlockOrder: 
     BlockList: []
     TrialList: []
@@ -568,9 +569,11 @@ MonoBehaviour:
       BlockId: 0
       BlockName: 
       Notes: 
+      trialOrderIndex: 0
       TrialOrder: 
     GlobalData:
       MovementSpeed: 0
+    blockOrderIndex: 0
     BlockOrder: 
     BlockList: []
     TrialList: []
@@ -605,9 +608,11 @@ MonoBehaviour:
       BlockId: 0
       BlockName: 
       Notes: 
+      trialOrderIndex: 0
       TrialOrder: 
     GlobalData:
       MovementSpeed: 0
+    blockOrderIndex: 0
     BlockOrder: 
     BlockList: []
     TrialList: []

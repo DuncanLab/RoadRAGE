@@ -43,7 +43,7 @@ public class TerrainGenerator : MonoBehaviour
     public enum LaneSide { left, right };
 
     // Use this for initialization.
-    void Awake()
+    void Start()
     {
         // Carry over data.
         data = Toolbox.Instance.data;

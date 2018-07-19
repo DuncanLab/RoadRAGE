@@ -18,7 +18,7 @@ public class StartController : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(transform.gameObject);
+        //DontDestroyOnLoad(transform.gameObject);
     }
 
     // Use this for initialization
@@ -60,6 +60,6 @@ public class StartController : MonoBehaviour
         Toolbox.Instance.data = temp;
         isGameLoaded = true;
         Debug.Log("Loading main game");
-        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        SceneManager.LoadScene("Main");
     }
 }

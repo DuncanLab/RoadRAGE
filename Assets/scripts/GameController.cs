@@ -13,9 +13,6 @@ public class GameController : MonoBehaviour
     public StartController startController;
     public GameData data;
 
-    // Use stopwatch for it's accuracy.
-    public System.Diagnostics.Stopwatch currTrialTimer;
-
     public int trialOrderIndex;
     public int blockOrderIndex;
 
@@ -23,10 +20,10 @@ public class GameController : MonoBehaviour
     public GameObject LoadImagePanel;
 
     // Use this for initialization
-    void Awake()
+    void Start()
     {
         Debug.Log("Awake Called in game controller!!");
-        currTrialTimer = new System.Diagnostics.Stopwatch();
+        data.currTrial.Timer = new System.Diagnostics.Stopwatch();
 
         // Carry over data.
         data = Toolbox.Instance.data;
@@ -39,6 +36,7 @@ public class GameController : MonoBehaviour
 
             data.currBlock = data.BlockList[data.BlockOrder[blockOrderIndex] - 1];
             data.currTrial = data.TrialList[data.currBlock.TrialOrder[trialOrderIndex] - 1];
+            data.currTrial.Timer = new System.Diagnostics.Stopwatch();
 
             data.isGameStarted = true;
             LoadNextTrial();
@@ -97,7 +95,7 @@ public class GameController : MonoBehaviour
         }
 
         // This should check if the current trial's allotted time has passed.
-        else if (currTrialTimer.ElapsedMilliseconds >= Math.Abs(data.currTrial.TimeAllotted))
+        else if (data.currTrial.Timer.ElapsedMilliseconds >= Math.Abs(data.currTrial.TimeAllotted))
         {
             trialOver = true;
         }
@@ -115,6 +113,7 @@ public class GameController : MonoBehaviour
     private void LoadNextTrial()
     {
         data.currTrial = data.TrialList[data.currBlock.TrialOrder[trialOrderIndex] - 1];
+        data.currTrial.Timer = new System.Diagnostics.Stopwatch();
 
         // If the file location variable has been set in the config
         // We want to display an image instead of starting an actual trial.
@@ -129,18 +128,18 @@ public class GameController : MonoBehaviour
             loadImageObject.enabled = true;
         }
 
-        // Trial resets and starts from scratch.
-        // else
-        // {
-        // Reset Scene
-        //   SceneManager.LoadScene("Main");
+        //Trial resets and starts from scratch.
+         else
+         {
+            //Reset Scene
+           SceneManager.LoadScene("Main");
 
-        // Load the appropriate prefabs.
-        //}        
+            //Load the appropriate prefabs.
+        }
 
-        currTrialTimer.Stop();
-        currTrialTimer.Reset();
-        currTrialTimer.Start();
+        data.currTrial.Timer.Stop();
+        data.currTrial.Timer.Reset();
+        data.currTrial.Timer.Start();
     }
 
 }

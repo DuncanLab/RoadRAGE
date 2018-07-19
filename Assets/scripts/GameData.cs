@@ -44,6 +44,7 @@ public class GameData
     {
         public int TrialId;
         public string TrialName;
+        public System.Diagnostics.Stopwatch Timer; // Use stopwatch for it's accuracy.
         public string Header; // <---- general instruction (should be in middle of HUD) (OM).
         public List<Road> Roads; // <---- what prefabs are used. first stretch that is generated is road1 prefab and then road2 prefab these names correspond with prefab names in UNITY
         public string FileLocation; // Path to image file used for heads up display.

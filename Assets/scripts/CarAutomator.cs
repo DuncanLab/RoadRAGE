@@ -15,15 +15,16 @@ public class CarAutomator : MonoBehaviour
     public bool movingRight;
     public bool movingLeft;
 
-    public GameController GC;
+    public GameData data;
 
     // Use this for initialization
     void Start()
     {
-        GC = (GameController)GameObject.Find("GameScriptHolder").GetComponent("GameController");
+        // Carry over data.
+        data = Toolbox.Instance.data;
 
         m_Rigidbody = GetComponent<Rigidbody>();
-        m_Rigidbody.velocity = new Vector3(0, 0, GC.data.GlobalData.MovementSpeed);
+        m_Rigidbody.velocity = new Vector3(0, 0, data.GlobalData.MovementSpeed);
     }
 
     // Called every frame
@@ -31,7 +32,7 @@ public class CarAutomator : MonoBehaviour
     {
         // Maintain constant forward velocity
         var previous = m_Rigidbody.velocity;
-        m_Rigidbody.velocity = new Vector3(previous.x, previous.y, GC.data.GlobalData.MovementSpeed);
+        m_Rigidbody.velocity = new Vector3(previous.x, previous.y, data.GlobalData.MovementSpeed);
 
         // Check for left/right input, and change lanes accordingly. 
         // All other movement is restricted for simulation purposes
@@ -49,7 +50,7 @@ public class CarAutomator : MonoBehaviour
                 {
                     movingRight = true;
                     movingLeft = false;
-                    transform.position = new Vector3(previousPos.x + 0.04f, previousPos.y, previousPos.z);
+                    transform.position = new Vector3(previousPos.x + 0.06f, previousPos.y, previousPos.z);
                 }
                 else
                 {
@@ -72,7 +73,7 @@ public class CarAutomator : MonoBehaviour
                 {
                     movingLeft = true;
                     movingRight = false;
-                    transform.position = new Vector3(previousPos.x - 0.04f, previousPos.y, previousPos.z);
+                    transform.position = new Vector3(previousPos.x - 0.06f, previousPos.y, previousPos.z);
                 }
                 else
                 {

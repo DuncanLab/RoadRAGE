@@ -292,6 +292,7 @@ GameObject:
   m_Component:
   - component: {fileID: 672235951}
   - component: {fileID: 672235952}
+  - component: {fileID: 672235953}
   m_Layer: 0
   m_Name: GameScriptHolder
   m_TagString: Untagged
@@ -350,6 +351,17 @@ MonoBehaviour:
   trialOrderIndex: 0
   blockOrderIndex: 0
   LoadImagePanel: {fileID: 1034528026}
+--- !u!114 &672235953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 672235950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a81415fa8c873544b00008b01ec5944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &793526021 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400050, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
@@ -516,7 +528,30 @@ MonoBehaviour:
   prevTerrainChunk: {fileID: 0}
   CurrentRoadPrefab: 0
   _createdGameObjects: []
-  GC: {fileID: 0}
+  GameController: {fileID: 0}
+  data:
+    OutputTimesPerSecond: 0
+    isGameStarted: 0
+    currTrial:
+      TrialId: 0
+      TrialName: 
+      Header: 
+      Roads: []
+      FileLocation: 
+      TimeAllotted: 0
+      Events: []
+      FinalScoreAssignments: []
+    currBlock:
+      BlockId: 0
+      BlockName: 
+      Notes: 
+      TrialOrder: 
+    GlobalData:
+      MovementSpeed: 0
+    BlockOrder: 
+    BlockList: []
+    TrialList: []
+    currTrialOrder: 
 --- !u!114 &1438112583
 MonoBehaviour:
   m_ObjectHideFlags: 0

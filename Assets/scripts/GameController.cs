@@ -29,8 +29,7 @@ public class GameController : MonoBehaviour
         currTrialTimer = new System.Diagnostics.Stopwatch();
 
         // Carry over data.
-        startController = (StartController)GameObject.Find("StartScriptHolder").GetComponent("StartController");
-        data = startController.data;
+        data = Toolbox.Instance.data;
 
         // Init block, trial positions on the first go around
         if (!data.isGameStarted)

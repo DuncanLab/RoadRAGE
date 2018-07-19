@@ -38,7 +38,6 @@ public class TerrainGenerator : MonoBehaviour
 
     public List<GameObject> _createdGameObjects;
 
-    public GameController GameController;
     public GameData data;
 
     public enum LaneSide { left, right };
@@ -47,8 +46,7 @@ public class TerrainGenerator : MonoBehaviour
     void Awake()
     {
         // Carry over data.
-        GameController = (GameController)GameObject.Find("GameScriptHolder").GetComponent("GameController");
-        data = GameController.data;
+        data = Toolbox.Instance.data;
 
         // Simulation starts with only one chunk.
         GameObject RoadPrefab = Resources.Load<GameObject>("prefabs/" + data.currTrial.Roads[0].PrefabName);

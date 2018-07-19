@@ -57,7 +57,7 @@ public class StartController : MonoBehaviour
         var file = System.IO.File.ReadAllText(configPath);
 
         var temp = JsonUtility.FromJson<GameData>(file);
-        data = temp;
+        Toolbox.Instance.data = temp;
         isGameLoaded = true;
         Debug.Log("Loading main game");
         SceneManager.LoadScene("Main", LoadSceneMode.Single);

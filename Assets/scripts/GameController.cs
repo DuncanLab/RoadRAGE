@@ -60,7 +60,9 @@ public class GameController : MonoBehaviour
                 {
                     Debug.LogWarning("Simulation End!");
                     Application.Quit();
+#if UNITY_EDITOR
                     UnityEditor.EditorApplication.isPlaying = false;
+#endif
                     return;
                 }
                 // blocks are remaining, so continue.

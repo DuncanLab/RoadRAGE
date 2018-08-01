@@ -78,19 +78,19 @@
             "Header": "Explore!",
             "Roads": [
                 {
-                    "PrefabName": "road_forest_100m",
+                    "PrefabName": "road_forest_100m_WP",
                     "TimeToExist": 20000
                 },
                 {
-                    "PrefabName": "road_mountain_100m",
+                    "PrefabName": "road_mountain_100m_WP",
                     "TimeToExist": 20000
                 },
 				{
-                    "PrefabName": "road_forest_100m",
+                    "PrefabName": "road_forest_100m_WP",
                     "TimeToExist": 20000
                 },
                 {
-                    "PrefabName": "road_mountain_100m",
+                    "PrefabName": "road_mountain_100m_WP",
                     "TimeToExist": 20000
                 }
             ],

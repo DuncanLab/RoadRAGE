@@ -392,6 +392,16 @@ MonoBehaviour:
 Transform:
   m_PrefabParentObject: {fileID: 400050, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
   m_PrefabInternal: {fileID: 2018678243}
+--- !u!146 &888157655 stripped
+WheelCollider:
+  m_PrefabParentObject: {fileID: 14600006, guid: 0e7ee4df08df88c4880f43398f9ad2c2,
+    type: 2}
+  m_PrefabInternal: {fileID: 2018678243}
+--- !u!146 &904543326 stripped
+WheelCollider:
+  m_PrefabParentObject: {fileID: 14600000, guid: 0e7ee4df08df88c4880f43398f9ad2c2,
+    type: 2}
+  m_PrefabInternal: {fileID: 2018678243}
 --- !u!1 &1034528026
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,7 +588,7 @@ MonoBehaviour:
     BlockList: []
     TrialList: []
     currTrialOrder: 
---- !u!114 &1438112583
+--- !u!114 &1438112579
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -586,37 +596,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1438112577}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31f9139f750ba6448b9000abc234b8bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ecd143fe8c46e0419e14cd1e27d385b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inLane: 0
-  movingRight: 0
-  movingLeft: 0
-  data:
-    OutputTimesPerSecond: 0
-    isGameStarted: 0
-    currTrial:
-      TrialId: 0
-      TrialName: 
-      Header: 
-      Roads: []
-      FileLocation: 
-      TimeAllotted: 0
-      Events: []
-      FinalScoreAssignments: []
-    currBlock:
-      BlockId: 0
-      BlockName: 
-      Notes: 
-      trialOrderIndex: 0
-      TrialOrder: 
-    GlobalData:
-      MovementSpeed: 0
-    blockOrderIndex: 0
-    BlockOrder: 
-    BlockList: []
-    TrialList: []
-    currTrialOrder: 
+  currPath: {fileID: 0}
+  wheelFL: {fileID: 904543326}
+  wheelFR: {fileID: 888157655}
+  currPathTag: 
 --- !u!1 &1525046758
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,6 +871,38 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e98e4ea5b7785ef4f806603240d6033e, type: 2}
+    - target: {fileID: 11400002, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
+      propertyPath: m_CarDriveType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
+      propertyPath: m_MaximumSteerAngle
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
+      propertyPath: m_SteerHelper
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
+      propertyPath: m_Downforce
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
+      propertyPath: m_SlipLimit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
+      propertyPath: m_TractionControl
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400000, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
+      propertyPath: m_Mass
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400000, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
+      propertyPath: m_Drag
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
   m_IsPrefabParent: 0

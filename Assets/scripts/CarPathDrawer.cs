@@ -11,7 +11,7 @@ public class CarPathDrawer : MonoBehaviour
 
     private List<Transform> nodes;
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = lineColor;
 

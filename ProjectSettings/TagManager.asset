@@ -6,6 +6,10 @@ TagManager:
   tags:
   - LaneRight_100m
   - LaneLeft_100m
+  - CenterPath
+  - Path
+  - RightPath
+  - LeftPath
   layers:
   - Default
   - TransparentFX

@@ -10,6 +10,9 @@ using UnityStandardAssets.CrossPlatformInput;
 public class GameController : MonoBehaviour
 {
 
+    public ProgressBar hungerBar;
+    public ProgressBar thirstBar;
+
     public GameData data;
 
     // Game objects
@@ -34,7 +37,7 @@ public class GameController : MonoBehaviour
             data.currTrial = data.TrialList[data.currBlock.TrialOrder[data.currBlock.trialOrderIndex] - 1];
             data.currTrial.Timer = new System.Diagnostics.Stopwatch();
 
-            
+
             LoadNextTrial();
             data.isGameStarted = true;
         }
@@ -77,6 +80,8 @@ public class GameController : MonoBehaviour
             data.currBlock.trialOrderIndex++;
             LoadNextTrial();
         }
+
+        UpdateProgressBars();
 
     }
 
@@ -128,10 +133,10 @@ public class GameController : MonoBehaviour
         }
 
         //Trial resets and starts from scratch.
-         else if (data.isGameStarted)
-         {
+        else if (data.isGameStarted)
+        {
             //Reset Scene
-           SceneManager.LoadScene("Main");
+            SceneManager.LoadScene("Main");
 
             //Load the appropriate prefabs.
         }
@@ -139,6 +144,14 @@ public class GameController : MonoBehaviour
         data.currTrial.Timer.Stop();
         data.currTrial.Timer.Reset();
         data.currTrial.Timer.Start();
+    }
+
+    private void UpdateProgressBars()
+    {
+        int newBarValue = (int) Math.Round(100f - (data.currTrial.Timer.ElapsedMilliseconds / 1000f));
+        print(newBarValue);
+        hungerBar.BarValue = newBarValue;
+        thirstBar.BarValue = newBarValue;
     }
 
 }

@@ -8,9 +8,8 @@ using UnityStandardAssets.Vehicles.Car;
 [RequireComponent(typeof(CarController))]
 public class CarAIEngine : MonoBehaviour
 {
-
-    private const float MAX_SPEED = 30f;
-
+    private GameData data;
+   
     public Transform currPath;
     private List<Transform> nodes;
     private int currNodeIndex = 0;
@@ -26,6 +25,9 @@ public class CarAIEngine : MonoBehaviour
 
     void Start()
     {
+        // Carry over data.
+        data = Toolbox.Instance.data;
+
         // get the car controller
         m_Car = GetComponent<CarController>();
         // get the rigidbody for speed
@@ -123,7 +125,7 @@ public class CarAIEngine : MonoBehaviour
     private void Drive()
     {
         // Speed up to MAX_SPEED.
-        if (m_RigidBody.velocity.magnitude < MAX_SPEED)
+        if (m_RigidBody.velocity.magnitude < data.GlobalData.MovementSpeed)
         {
             m_Car.Move(0, 1f, 0, 0);
         }

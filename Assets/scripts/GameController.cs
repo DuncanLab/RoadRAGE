@@ -149,7 +149,6 @@ public class GameController : MonoBehaviour
     private void UpdateProgressBars()
     {
         int newBarValue = (int) Math.Round(100f - (data.currTrial.Timer.ElapsedMilliseconds / 1000f));
-        print(newBarValue);
         hungerBar.BarValue = newBarValue;
         thirstBar.BarValue = newBarValue;
     }

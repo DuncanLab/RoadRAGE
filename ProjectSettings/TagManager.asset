@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - LaneRight_100m
+  - LaneLeft_100m
+  - CenterPath
+  - Path
+  - RightPath
+  - LeftPath
   layers:
   - Default
   - TransparentFX

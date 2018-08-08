@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // This class controls the basic "infinite scroll" effect that is 
 // is used for the simulation.
-public class TerrainGenerator : MonoBehaviour {
+public class TerrainGenerator : MonoBehaviour
+{
 
-    const float RIGHT_LANE_POS_X = 256.4f;
-    const float RIGHT_LANE_POS_Y = 0.003f;
-    const float RIGHT_LANE_POS_Z = 375f;
+    const float RIGHT_LANE_POS_X = 254.2f;
+    const float RIGHT_LANE_POS_Y = 0.006f;
+    const float RIGHT_LANE_POS_Z = 50f;
 
-    const float LEFT_LANE_POS_X = 243.6f;
-    const float LEFT_LANE_POS_Y = 0.003f;
-    const float LEFT_LANE_POS_Z = 375f;
+    const float LEFT_LANE_POS_X = 245.8f;
+    const float LEFT_LANE_POS_Y = 0.006f;
+    const float LEFT_LANE_POS_Z = 50f;
 
     const float BILLBOARD_RIGHT_POS_X = 261.56f;
     const float BILLBOARD_RIGHT_POS_Y = 0.0f;
@@ -20,72 +22,76 @@ public class TerrainGenerator : MonoBehaviour {
 
     // This is the standard (prefab) chunk we want to load to simulate
     // an infinite roadway.
-    public GameObject BasicTerrainChunk;
+    public GameObject road_normal_100m;
 
     // Prefabs for loading
     public GameObject billboard;
-    public GameObject LaneRight;
-    public GameObject LaneLeft;
+    public GameObject LaneRight_100m;
+    public GameObject LaneLeft_100m;
 
     // Reference pointers
     public GameObject currTerrain;
     public GameObject currTerrainChunk;
     public GameObject prevTerrainChunk;
 
+    public int CurrentRoadPrefab;
+
     public List<GameObject> _createdGameObjects;
-   
-	// Use this for initialization.
-	void Start () {
+
+    public GameData data;
+
+    public enum LaneSide { left, right };
+
+    // Use this for initialization.
+    void Start()
+    {
+        Debug.Log("terrain gen start");
+        // Carry over data.
+        data = Toolbox.Instance.data;
+
         // Simulation starts with only one chunk.
-        currTerrainChunk = GameObject.Find("BasicTerrainChunk1");
+        GameObject RoadPrefab = Resources.Load<GameObject>("prefabs/" + data.currTrial.Roads[0].PrefabName);
+        currTerrainChunk = Instantiate(RoadPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        //currTerrainChunk = GameObject.Find("road1Example");
         prevTerrainChunk = currTerrainChunk;
-
-        // Setup objects to load for the next chunk, only load the 
-        // items that should be in the first/second chunk to begin with
-        // TODO : read this in from a config file
-        var billboard1 = "billboard";
-        var LaneRight1 = "LaneRight";
-        var LaneLeft1 = "LaneLeft";
-
-        List<string> _objectsToLoad = new List<string>
-        {
-            billboard1,
-            LaneRight1,
-            LaneLeft1
-        };
-
-        CreatePrefabsInChunk(_objectsToLoad);
         _createdGameObjects.Add(prevTerrainChunk);
+        CurrentRoadPrefab = 0;
+
+        // pre-load all the lanes here
+        LoadLanes();
+
+
     }
-	
-	// Update is called once per frame.
-	void Update () {
-        var relativePos = transform.position.z - currTerrain.transform.position.z;
+
+    // Update is called once per frame.
+    void Update()
+    {
+        var relativePos = transform.position.z - currTerrainChunk.transform.position.z;
 
         // We have left the previous terrain chunk, never to return - so destroy all of it.
-        if (transform.position.z - prevTerrainChunk.transform.Find("BaseTerrain").gameObject.transform.position.z > 1100)
+        // TODO : figure out a way to make this work with the new, config driven chunk spawn.
+        if (relativePos > 105)
         {
             DestroyPreviousChunk();
             prevTerrainChunk = currTerrainChunk;
         }
 
-        // Generate the next terrain chunk if the car is close enough.
-        if (relativePos > 10)
+        // Generate the required chunks in the current prefab spec.
+        if (CurrentRoadPrefab < data.currTrial.Roads.Count)
         {
-            currTerrainChunk = Instantiate(BasicTerrainChunk, new Vector3(0, 0, currTerrain.transform.position.z + 1000f), Quaternion.identity);   
-            currTerrain = currTerrainChunk.transform.Find("BaseTerrain").gameObject;
-            _createdGameObjects.Add(prevTerrainChunk);
+            GameObject RoadPrefab = (GameObject)Resources.Load("prefabs/" + data.currTrial.Roads[CurrentRoadPrefab].PrefabName);
 
-            // TODO : replace this with serial lane/billboard loading
-            List<string> _objectsToLoad = new List<string>
-        {
-            "billboard",
-            "LaneLeft",
-        };
-            CreatePrefabsInChunk(_objectsToLoad);
+            // Here we want to instantiate enough chunks to last the time specified in the config
+            var ChunksRequired = CalculateNumberOfChunksRequired(data.currTrial.Roads[CurrentRoadPrefab].TimeToExist, data.GlobalData.MovementSpeed, 100);
+            for (int i = 0; i < ChunksRequired; i++)
+            {
+                currTerrainChunk = Instantiate(RoadPrefab, new Vector3(0, 0, currTerrainChunk.transform.position.z + 100f), Quaternion.identity);
+                _createdGameObjects.Add(currTerrainChunk);
+            }
 
+            CurrentRoadPrefab++;
         }
-	}
+    }
 
     private void DestroyPreviousChunk()
     {
@@ -95,22 +101,74 @@ public class TerrainGenerator : MonoBehaviour {
         }
     }
 
-    private void CreatePrefabsInChunk(List<string> objectsToCreate)
+
+    // TODO : refactor.
+    private void LoadLanes()
     {
-        for (int i = 0; i < objectsToCreate.Count; i++)
+        float ChunkCalculationTime;
+
+        for (int i = 0; i < data.currTrial.Events.Count; i++)
         {
-            if ("billboard".Equals(objectsToCreate[i]))
+            GameData.Event CurrEvent = data.currTrial.Events[i];
+            if (CurrEvent.EventType.ToLower().Equals("lane"))
             {
-                _createdGameObjects.Add(Instantiate(billboard, new Vector3(BILLBOARD_RIGHT_POS_X, BILLBOARD_RIGHT_POS_Y, BILLBOARD_RIGHT_POS_Z + currTerrain.transform.position.z), Quaternion.Euler(new Vector3(0f, 0f, 90f))));
+                if (CurrEvent.DespawnTime == 0f)
+                {
+                    ChunkCalculationTime = data.currTrial.TimeAllotted;
+                } else
+                {
+                    ChunkCalculationTime = CurrEvent.DespawnTime - CurrEvent.SpawnTime;
+                }
+
+
+                if (CurrEvent.SpawnSide.ToLower().Equals("r"))
+                {
+                    var ChunksRequired = CalculateNumberOfChunksRequired(ChunkCalculationTime, data.GlobalData.MovementSpeed, 100);
+                    for (int j = 0; j <= ChunksRequired; j++)
+                    {
+                        float SpawnDistance = CalculateLaneSpawnDistance(CurrEvent.SpawnTime, data.GlobalData.MovementSpeed);
+                        GameObject LaneInstance = Instantiate(Resources.Load<GameObject>("prefabs/LaneRight_100m_WP"), new Vector3(RIGHT_LANE_POS_X, RIGHT_LANE_POS_Y, SpawnDistance + (100 * j)), Quaternion.Euler(0, 180, 0));
+                        _createdGameObjects.Add(LaneInstance);
+                    }
+                }
+                else
+                {
+                    var ChunksRequired = CalculateNumberOfChunksRequired(ChunkCalculationTime, data.GlobalData.MovementSpeed, 100);
+                    for (int j = 0; j <= ChunksRequired; j++)
+                    {
+                        float SpawnDistance = CalculateLaneSpawnDistance(CurrEvent.SpawnTime, data.GlobalData.MovementSpeed);
+                        GameObject LaneInstance = Instantiate(Resources.Load<GameObject>("prefabs/LaneLeft_100m_WP"), new Vector3(LEFT_LANE_POS_X, LEFT_LANE_POS_Y, SpawnDistance + (100 * j)), Quaternion.identity);
+                        _createdGameObjects.Add(LaneInstance);
+                    }
+                }
             }
-            else if ("LaneRight".Equals(objectsToCreate[i]))
-            {
-                _createdGameObjects.Add(Instantiate(LaneRight, new Vector3(RIGHT_LANE_POS_X, RIGHT_LANE_POS_Y, RIGHT_LANE_POS_Z + currTerrain.transform.position.z), Quaternion.Euler(new Vector3(0f, 180f, 0f))));
-            }
-            else if ("LaneLeft".Equals(objectsToCreate[i]))
-            {
-                _createdGameObjects.Add(Instantiate(LaneLeft, new Vector3(LEFT_LANE_POS_X, LEFT_LANE_POS_Y, LEFT_LANE_POS_Z + currTerrain.transform.position.z), Quaternion.identity));
-            }
+
+
         }
+    }
+
+    private int CalculateNumberOfChunksRequired(float MillesecondsOfChunkExistance, float MovementSpeed, int PrefabRoadLength)
+    {
+        float SecondsOfExistence = MillesecondsOfChunkExistance / 1000;
+
+        float MetersOfRoadRequired = MovementSpeed * SecondsOfExistence;
+
+        int ChunksRequired = (int)Math.Ceiling(MetersOfRoadRequired / PrefabRoadLength);
+
+        // We are on the first road of the trial, so we need one less chunk (it will be loaded on start).
+        if (CurrentRoadPrefab == 0)
+        {
+            ChunksRequired--;
+        }
+
+        return ChunksRequired;
+    }
+
+    private float CalculateLaneSpawnDistance(float MillesecondsToWaitForSpawn, float MovementSpeed)
+    {
+        float SecondsToWait = MillesecondsToWaitForSpawn / 1000;
+
+        // We add 50 here because lane origin is dead center.
+        return (MovementSpeed * SecondsToWait) + 50;
     }
 }

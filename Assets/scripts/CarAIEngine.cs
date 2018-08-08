@@ -9,7 +9,7 @@ using UnityStandardAssets.Vehicles.Car;
 public class CarAIEngine : MonoBehaviour
 {
 
-    private const float MAX_SPEED = 20f;
+    private const float MAX_SPEED = 30f;
 
     public Transform currPath;
     private List<Transform> nodes;
@@ -39,10 +39,8 @@ public class CarAIEngine : MonoBehaviour
     {
         CheckUserInput();
         PopulateNodes();
-        //ApplySteer();
         Drive();
         CheckWaypointDistance();
-        //print(m_RigidBody.velocity.magnitude);
     }
 
     private void CheckUserInput()
@@ -53,7 +51,6 @@ public class CarAIEngine : MonoBehaviour
 
         if (h > 0f)
         {
-            print("MOVING RIGHT");
             if (currPathTag == "LeftPath")
             {
                 currPathTag = "CenterPath";
@@ -62,23 +59,24 @@ public class CarAIEngine : MonoBehaviour
             {
                 if (Math.Abs(wheelFL.steerAngle) < 1)
                 {
-                currPathTag = "RightPath";
+                    currPathTag = "RightPath";
 
                 }
             }
             nodes.Clear();
             currNodeIndex = 0;
-        } else if (h < 0f)
+        }
+        else if (h < 0f)
         {
-            print("MOVING LEFT");
             if (currPathTag == "RightPath")
             {
                 currPathTag = "CenterPath";
-            } else
+            }
+            else
             {
                 if (Math.Abs(wheelFL.steerAngle) < 1)
                 {
-                currPathTag = "LeftPath";
+                    currPathTag = "LeftPath";
 
                 }
             }
@@ -98,8 +96,14 @@ public class CarAIEngine : MonoBehaviour
             // Remove self from transform array.
             for (int j = 0; j < pathTransforms.Length; j++)
             {
+                // Use dot product to determine if the node is in front of the car.
+                Vector3 heading = pathTransforms[j].position - transform.position;
+                float dot = Vector3.Dot(heading, transform.position);
+
+
                 // Only add nodes to path that are infront of the car, and sufficiently far away. Otherwise, the car steers "too" well.
-                if (pathTransforms[j] != paths[i].transform && Vector3.Angle(transform.forward, pathTransforms[j].position - transform.position) < 90  && Vector3.Distance(pathTransforms[j].position, transform.position) > 50)
+                // The filter for distance may be removed if paths with far less nodes are created.
+                if (pathTransforms[j] != paths[i].transform && dot > 0 && Vector3.Distance(pathTransforms[j].position, transform.position) > 40)
                 {
                     nodes.Add(pathTransforms[j]);
                 }
@@ -110,11 +114,10 @@ public class CarAIEngine : MonoBehaviour
     private void ApplySteer()
     {
         Vector3 relativeVec = transform.InverseTransformPoint(nodes[currNodeIndex].position);
-
         float newSteer = (relativeVec.x / relativeVec.magnitude) * maxSteerAngle;
+
         wheelFL.steerAngle = newSteer;
         wheelFR.steerAngle = newSteer;
-       // m_Car.Move(newSteer, 0, 0, 0);
     }
 
     private void Drive()
@@ -123,21 +126,19 @@ public class CarAIEngine : MonoBehaviour
         if (m_RigidBody.velocity.magnitude < MAX_SPEED)
         {
             m_Car.Move(0, 1f, 0, 0);
-            //print("ACCEL NOW");
-        } else
+        }
+        else
         {
             m_Car.Move(0, 0, 0, 0);
         }
 
-        Vector3 relativeVec = transform.InverseTransformPoint(nodes[currNodeIndex].position);
-
-        float newSteer = (relativeVec.x / relativeVec.magnitude) * maxSteerAngle;
-        wheelFL.steerAngle = newSteer;
-        wheelFR.steerAngle = newSteer;
+        //print("Currently Tracking node at position " + nodes[currNodeIndex].position.ToString());
+        ApplySteer();
     }
 
     private void CheckWaypointDistance()
     {
+
         if (Vector3.Distance(transform.position, nodes[currNodeIndex].position) < 8f)
         {
             if (currNodeIndex == nodes.Count - 1)

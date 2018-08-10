@@ -664,6 +664,10 @@ MonoBehaviour:
   currPath: {fileID: 0}
   wheelFL: {fileID: 904543326}
   wheelFR: {fileID: 888157655}
+  pid:
+    pFactor: 0.8
+    iFactor: 0.4
+    dFactor: 0.05
   currPathTag: 
 --- !u!1 &1525046758
 GameObject:

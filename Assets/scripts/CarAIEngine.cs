@@ -21,6 +21,7 @@ public class CarAIEngine : MonoBehaviour
     private CarController m_Car;
     private Rigidbody m_RigidBody;
 
+    public PID pid;
     public string currPathTag;
 
     void Start()
@@ -51,6 +52,7 @@ public class CarAIEngine : MonoBehaviour
         // All other movement is restricted for simulation purposes
         float h = CrossPlatformInputManager.GetAxis("Horizontal");
 
+        // Move right one lane.
         if (h > 0f)
         {
             if (currPathTag == "LeftPath")
@@ -59,7 +61,8 @@ public class CarAIEngine : MonoBehaviour
             }
             else
             {
-                if (Math.Abs(wheelFL.steerAngle) < 1)
+                // Only change one lane at a time.
+                if (Math.Abs(wheelFL.steerAngle) < 0.001f)
                 {
                     currPathTag = "RightPath";
 
@@ -68,6 +71,7 @@ public class CarAIEngine : MonoBehaviour
             nodes.Clear();
             currNodeIndex = 0;
         }
+        // Move left one lane.
         else if (h < 0f)
         {
             if (currPathTag == "RightPath")
@@ -76,7 +80,7 @@ public class CarAIEngine : MonoBehaviour
             }
             else
             {
-                if (Math.Abs(wheelFL.steerAngle) < 1)
+                if (Math.Abs(wheelFL.steerAngle) < 0.001f)
                 {
                     currPathTag = "LeftPath";
 
@@ -118,8 +122,10 @@ public class CarAIEngine : MonoBehaviour
         Vector3 relativeVec = transform.InverseTransformPoint(nodes[currNodeIndex].position);
         float newSteer = (relativeVec.x / relativeVec.magnitude) * maxSteerAngle;
 
-        wheelFL.steerAngle = newSteer;
-        wheelFR.steerAngle = newSteer;
+        float correctionViaPID = pid.Update(newSteer, wheelFL.steerAngle, Time.deltaTime);
+
+        wheelFL.steerAngle = correctionViaPID;
+        wheelFR.steerAngle = correctionViaPID;
     }
 
     private void Drive()

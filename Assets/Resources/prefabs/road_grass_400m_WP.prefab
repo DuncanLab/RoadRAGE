@@ -491,7 +491,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4794087861634218}
   m_Layer: 0
-  m_Name: road_grass_100m_WP
+  m_Name: road_grass_400m_WP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

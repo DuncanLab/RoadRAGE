@@ -9,7 +9,7 @@ using UnityStandardAssets.Vehicles.Car;
 public class CarAIEngine : MonoBehaviour
 {
     private GameData data;
-   
+
     public Transform currPath;
     private List<Transform> nodes;
     private int currNodeIndex = 0;
@@ -48,6 +48,10 @@ public class CarAIEngine : MonoBehaviour
 
     private void CheckUserInput()
     {
+        // Need a check here to see if there on an off ramp then do nothing
+        // when input arrives.
+
+
         // Check for left/right input, and change lanes accordingly. 
         // All other movement is restricted for simulation purposes
         float h = CrossPlatformInputManager.GetAxis("Horizontal");
@@ -94,6 +98,7 @@ public class CarAIEngine : MonoBehaviour
 
     private void PopulateNodes()
     {
+        print(currPathTag);
         GameObject[] paths = GameObject.FindGameObjectsWithTag(currPathTag);
         for (int i = 0; i < paths.Length; i++)
         {
@@ -102,16 +107,14 @@ public class CarAIEngine : MonoBehaviour
             // Remove self from transform array.
             for (int j = 0; j < pathTransforms.Length; j++)
             {
-                // Use dot product to determine if the node is in front of the car.
-                Vector3 heading = pathTransforms[j].position - transform.position;
-                float dot = Vector3.Dot(heading, transform.position);
-
-
                 // Only add nodes to path that are infront of the car, and sufficiently far away. Otherwise, the car steers "too" well.
                 // The filter for distance may be removed if paths with far less nodes are created.
-                if (pathTransforms[j] != paths[i].transform && dot > 0 && Vector3.Distance(pathTransforms[j].position, transform.position) > 40)
+                if (pathTransforms[j] != paths[i].transform && Vector3.Angle(transform.forward, pathTransforms[j].position - transform.position) < 90 && Vector3.Distance(pathTransforms[j].position, transform.position) > 40)
                 {
-                    nodes.Add(pathTransforms[j]);
+                    if (!nodes.Contains(pathTransforms[j]))
+                    {
+                        nodes.Add(pathTransforms[j]);
+                    }
                 }
             }
         }
@@ -140,23 +143,21 @@ public class CarAIEngine : MonoBehaviour
             m_Car.Move(0, 0, 0, 0);
         }
 
-        //print("Currently Tracking node at position " + nodes[currNodeIndex].position.ToString());
         ApplySteer();
     }
 
     private void CheckWaypointDistance()
     {
-
-        if (Vector3.Distance(transform.position, nodes[currNodeIndex].position) < 8f)
+        // Advance the current node if we've passed the previous one.
+        if (Vector3.Distance(transform.position, nodes[currNodeIndex].position) < 10f || Vector3.Angle(transform.forward, nodes[currNodeIndex].position - transform.position) > 90)
         {
-            if (currNodeIndex == nodes.Count - 1)
-            {
-                currNodeIndex = 0;
-            }
-            else
-            {
-                currNodeIndex++;
-            }
+            currNodeIndex++;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Draw current node in scene view (Used for debugging).
+        Gizmos.DrawSphere(nodes[currNodeIndex].position, 6f);
     }
 }

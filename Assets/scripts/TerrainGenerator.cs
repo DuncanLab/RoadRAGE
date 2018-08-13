@@ -53,7 +53,7 @@ public class TerrainGenerator : MonoBehaviour
         GameObject RoadPrefab = Resources.Load<GameObject>("prefabs/" + data.currTrial.Roads[0].PrefabName);
         currTerrainChunk = Instantiate(RoadPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         //currTerrainChunk = GameObject.Find("road1Example");
-        prevTerrainChunk = currTerrainChunk;
+        prevTerrainChunk = null;
         _createdGameObjects.Add(prevTerrainChunk);
         CurrentRoadPrefab = 1;
 
@@ -66,18 +66,20 @@ public class TerrainGenerator : MonoBehaviour
     // Update is called once per frame.
     void Update()
     {
+        Terrain tr = currTerrainChunk.GetComponentInChildren<Terrain>();
+        Vector3 terrainSize = tr.terrainData.size;
         var relativePos = transform.position.z - currTerrainChunk.transform.position.z;
+        float terrainPercentageForNewChunk = terrainSize.z / 4;
 
         // We have left the previous terrain chunk, never to return - so destroy all of it.
-        // TODO : figure out a way to make this work with the new, config driven chunk spawn.
-        //if (relativePos > 105)
-        //{
-        //    DestroyPreviousChunk();
-        //    prevTerrainChunk = currTerrainChunk;
-        //}
+        if (relativePos > terrainPercentageForNewChunk)
+        {
+            Destroy(prevTerrainChunk);
+            prevTerrainChunk = currTerrainChunk;
+        }
 
         // Generate the required chunks in the current prefab spec.
-        if (CurrentRoadPrefab < data.currTrial.Roads.Count && relativePos > 100)
+        if (CurrentRoadPrefab < data.currTrial.Roads.Count && relativePos > terrainPercentageForNewChunk)
         {
             GameObject RoadPrefab = (GameObject)Resources.Load("prefabs/" + data.currTrial.Roads[CurrentRoadPrefab].PrefabName);
 
@@ -87,7 +89,8 @@ public class TerrainGenerator : MonoBehaviour
             //{
 
             float xOffset = DetermineXAxisOffset();
-                currTerrainChunk = Instantiate(RoadPrefab, new Vector3(xOffset, 0, currTerrainChunk.transform.position.z + 400f), Quaternion.identity);
+            prevTerrainChunk = currTerrainChunk;
+            currTerrainChunk = Instantiate(RoadPrefab, new Vector3(xOffset, 0, currTerrainChunk.transform.position.z + terrainSize.z), Quaternion.identity);
                 _createdGameObjects.Add(currTerrainChunk);
             //}
 
@@ -97,26 +100,18 @@ public class TerrainGenerator : MonoBehaviour
 
     private float DetermineXAxisOffset()
     {
-        if (transform.position.x < 230)
+        print(transform.position.x - currTerrainChunk.transform.position.x);
+        if (transform.position.x - currTerrainChunk.transform.position.x < 230)
         {
-            return -189.4f;
-        } else if (transform.position.x > 270)
+            return currTerrainChunk.transform.position.x - 189.4f;
+        } else if (transform.position.x - currTerrainChunk.transform.position.x > 270)
         {
-            return 194.5f;
+            return currTerrainChunk.transform.position.x + 194.5f;
         } else
         {
-            return 0f;
+            return currTerrainChunk.transform.position.x;
         }
     }
-
-    private void DestroyPreviousChunk()
-    {
-        for (int i = 0; i < _createdGameObjects.Count; i++)
-        {
-            Destroy(_createdGameObjects[i]);
-        }
-    }
-
 
     // TODO : refactor.
     private void LoadLanes()

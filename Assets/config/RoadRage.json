@@ -78,23 +78,31 @@
             "Header": "Explore!",
             "Roads": [
                 {
-                    "PrefabName": "road_grass_100m_WP_straight",
+                    "PrefabName": "road_grass_400m_WP_straight",
                     "TimeToExist": 20000
                 },
                 {
-                    "PrefabName": "road_grass_100m_WP",
+                    "PrefabName": "road_grass_400m_WP",
                     "TimeToExist": 20000
                 },
 				{
-                    "PrefabName": "road_grass_100m_WP_straight",
+                    "PrefabName": "road_mountain_100m_WP",
                     "TimeToExist": 20000
                 },
 				{
-                    "PrefabName": "road_grass_100m_WP",
+                    "PrefabName": "road_mountain_100m_WP",
                     "TimeToExist": 20000
                 },
 				{
-                    "PrefabName": "road_grass_100m_WP_straight",
+                    "PrefabName": "road_grass_400m_WP_straight",
+                    "TimeToExist": 20000
+                },
+				{
+                    "PrefabName": "road_grass_400m_WP",
+                    "TimeToExist": 20000
+                },
+				{
+                    "PrefabName": "road_grass_400m_WP_straight",
                     "TimeToExist": 20000
                 }
             ],

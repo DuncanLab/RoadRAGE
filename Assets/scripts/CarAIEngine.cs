@@ -98,7 +98,6 @@ public class CarAIEngine : MonoBehaviour
 
     private void PopulateNodes()
     {
-        print(currPathTag);
         GameObject[] paths = GameObject.FindGameObjectsWithTag(currPathTag);
         for (int i = 0; i < paths.Length; i++)
         {

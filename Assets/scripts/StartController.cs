@@ -25,7 +25,7 @@ public class StartController : MonoBehaviour
     void Start()
     {
         isGameLoaded = false;
-        configPath = Application.dataPath.ToString() + "/config/RoadRage.json";
+        configPath = Application.dataPath.ToString() + "/StreamingAssets/Config/RoadRage.json";
         Debug.Log(configPath);
 
         inputTextPlaceHold.text = configPath;
@@ -46,8 +46,11 @@ public class StartController : MonoBehaviour
 
     {
         // Here we're using: https://github.com/gkngkc/UnityStandaloneFileBrowser because it was easier than rolling our own
-        string[] paths = StandaloneFileBrowser.OpenFilePanel("Choose configuration file", "./../config", "json", false);
-        configPath = paths[0];
+        string[] paths = StandaloneFileBrowser.OpenFilePanel("Choose configuration file", "./StreamingAssets/Config", "json", false);
+        if (paths.Length > 0)
+        {
+            configPath = paths[0];
+        }
         inputTextPlaceHold.text = configPath;
     }
 

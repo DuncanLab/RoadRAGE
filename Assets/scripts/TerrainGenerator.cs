@@ -30,12 +30,14 @@ public class TerrainGenerator : MonoBehaviour
     public GameObject LaneRight_100m;
     public GameObject LaneLeft_100m;
 
+    public List<GameObject> roadPrefabs;
+
     // Reference pointers
     public GameObject currTerrain;
     public GameObject currTerrainChunk;
     public GameObject prevTerrainChunk;
 
-    public int CurrentRoadPrefab;
+    public int CurrentRoadPrefab = 0;
 
     public List<GameObject> _createdGameObjects;
 
@@ -50,9 +52,15 @@ public class TerrainGenerator : MonoBehaviour
         // Carry over data.
         data = Toolbox.Instance.data;
 
-        // Simulation starts with only one chunk.
-        GameObject RoadPrefab = Resources.Load<GameObject>("prefabs/" + data.currTrial.Roads[0].PrefabName);
-        currTerrainChunk = Instantiate(RoadPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        // Simulation starts with only one chunk, but load all prefabs
+        // to reduce fps drop on instantiate.
+        for (int i = 0; i < data.currTrial.Roads.Count; i++)
+        {
+        GameObject RoadPrefab = Resources.Load<GameObject>("prefabs/" + data.currTrial.Roads[i].PrefabName);
+            roadPrefabs.Add(RoadPrefab);
+        }
+
+        currTerrainChunk = Instantiate(roadPrefabs[CurrentRoadPrefab], new Vector3(0, 0, 0), Quaternion.identity);
         //currTerrainChunk = GameObject.Find("road1Example");
         prevTerrainChunk = null;
         _createdGameObjects.Add(prevTerrainChunk);
@@ -93,15 +101,13 @@ public class TerrainGenerator : MonoBehaviour
         // Generate the required chunks in the current prefab spec.
         if (CurrentRoadPrefab < data.currTrial.Roads.Count && relativePos > terrainPercentageForNewChunk)
         {
-            GameObject RoadPrefab = (GameObject)Resources.Load("prefabs/" + data.currTrial.Roads[CurrentRoadPrefab].PrefabName);
-
             // Here we want to instantiate enough chunks to last the time specified in the config
             //var ChunksRequired = CalculateNumberOfChunksRequired(data.currTrial.Roads[CurrentRoadPrefab].TimeToExist, data.GlobalData.MovementSpeed, (int) terrainSize.z);
             //for (int i = 0; i < ChunksRequired; i++)
             //{
             float xOffset = DetermineXAxisOffset();
             prevTerrainChunk = currTerrainChunk;
-            currTerrainChunk = Instantiate(RoadPrefab, new Vector3(xOffset, 0, currTerrainChunk.transform.position.z + terrainSize.z), Quaternion.identity);
+            currTerrainChunk = Instantiate(roadPrefabs[CurrentRoadPrefab], new Vector3(xOffset, 0, currTerrainChunk.transform.position.z + terrainSize.z), Quaternion.identity);
             _createdGameObjects.Add(currTerrainChunk);
             //}
 

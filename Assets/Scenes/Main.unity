@@ -158,7 +158,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.03
-  far clip plane: 1000
+  far clip plane: 400
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -610,44 +610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b5fc3c536a5aa44b4d565b9263a066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  road_normal_100m: {fileID: 1275393077318490, guid: 9278d26d45aa8c348a901c442b2396b0,
-    type: 2}
-  billboard: {fileID: 1594360576247696, guid: 25e340103612c784491769a2e69c4aa8, type: 2}
-  LaneRight_100m: {fileID: 1990561190136042, guid: dedb653c8e3be9b448a17d1a5600454d,
-    type: 2}
-  LaneLeft_100m: {fileID: 1585039667633296, guid: 38e4b8fe57799394088ce3c983318b50,
-    type: 2}
-  roadPrefabs: []
-  currTerrain: {fileID: 0}
-  currTerrainChunk: {fileID: 0}
-  prevTerrainChunk: {fileID: 0}
-  CurrentRoadPrefab: 0
-  _createdGameObjects: []
-  data:
-    OutputTimesPerSecond: 0
-    isGameStarted: 0
-    currTrial:
-      TrialId: 0
-      TrialName: 
-      Header: 
-      Roads: []
-      FileLocation: 
-      TimeAllotted: 0
-      Events: []
-      FinalScoreAssignments: []
-    currBlock:
-      BlockId: 0
-      BlockName: 
-      Notes: 
-      trialOrderIndex: 0
-      TrialOrder: 
-    GlobalData:
-      MovementSpeed: 0
-    blockOrderIndex: 0
-    BlockOrder: 
-    BlockList: []
-    TrialList: []
-    currTrialOrder: 
 --- !u!114 &1438112579
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -149,7 +149,7 @@ public class CarAIEngine : MonoBehaviour
     private void CheckWaypointDistance()
     {
         // Advance the current node if we've passed the previous one.
-        if (Vector3.Distance(transform.position, nodes[currNodeIndex].position) < 15f || Vector3.Angle(transform.forward, nodes[currNodeIndex].position - transform.position) > 90)
+        if (Vector3.Distance(transform.position, nodes[currNodeIndex].position) < 10f || Vector3.Angle(transform.forward, nodes[currNodeIndex].position - transform.position) > 90)
         {
             currNodeIndex++;
         }

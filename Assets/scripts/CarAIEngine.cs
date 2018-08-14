@@ -99,6 +99,7 @@ public class CarAIEngine : MonoBehaviour
     private void PopulateNodes()
     {
         GameObject[] paths = GameObject.FindGameObjectsWithTag(currPathTag);
+
         for (int i = 0; i < paths.Length; i++)
         {
             Transform[] pathTransforms = paths[i].GetComponentsInChildren<Transform>();
@@ -148,7 +149,7 @@ public class CarAIEngine : MonoBehaviour
     private void CheckWaypointDistance()
     {
         // Advance the current node if we've passed the previous one.
-        if (Vector3.Distance(transform.position, nodes[currNodeIndex].position) < 10f || Vector3.Angle(transform.forward, nodes[currNodeIndex].position - transform.position) > 90)
+        if (Vector3.Distance(transform.position, nodes[currNodeIndex].position) < 15f || Vector3.Angle(transform.forward, nodes[currNodeIndex].position - transform.position) > 90)
         {
             currNodeIndex++;
         }
@@ -158,5 +159,10 @@ public class CarAIEngine : MonoBehaviour
     {
         // Draw current node in scene view (Used for debugging).
         Gizmos.DrawSphere(nodes[currNodeIndex].position, 6f);
+
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            Gizmos.DrawWireSphere(nodes[i].position, 4f);
+        }
     }
 }

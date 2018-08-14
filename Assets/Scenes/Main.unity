@@ -669,6 +669,19 @@ MonoBehaviour:
     iFactor: 0.4
     dFactor: 0.05
   currPathTag: 
+--- !u!114 &1438112580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1438112577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce6829d3009a0f749b87f9ccabbe8956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hungerBar: {fileID: 486437925}
+  thirstBar: {fileID: 2119562098}
 --- !u!1 &1525046758
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,7 +1064,7 @@ Prefab:
     - target: {fileID: 224763426186284840, guid: 5eefba205a58c8c4a937c97b87c185a3,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -112.1
+      value: -112.1001
       objectReference: {fileID: 0}
     - target: {fileID: 114769781544105922, guid: 5eefba205a58c8c4a937c97b87c185a3,
         type: 2}

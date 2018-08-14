@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // This class controls the basic "infinite scroll" effect that is 
 // is used for the simulation.
@@ -59,8 +60,6 @@ public class TerrainGenerator : MonoBehaviour
 
         // pre-load all the lanes here
         //LoadLanes();
-
-
     }
 
     // Update is called once per frame.
@@ -71,12 +70,25 @@ public class TerrainGenerator : MonoBehaviour
         var relativePos = transform.position.z - currTerrainChunk.transform.position.z;
         float terrainPercentageForNewChunk = terrainSize.z / 4;
 
-        // We have left the previous terrain chunk, never to return - so destroy all of it.
-        if (relativePos > terrainPercentageForNewChunk)
+        // Safety incase the user sets the total time allotted for longer
+        // than the amount of road prefabs they've specified, we artificially
+        // set the TimeAllotted to 1sec so the trial will end.
+        if (CurrentRoadPrefab == data.currTrial.Roads.Count)
         {
-            Destroy(prevTerrainChunk);
-            prevTerrainChunk = currTerrainChunk;
+            if (relativePos > terrainSize.z - 20)
+            {
+                Debug.LogError("Time allotted is too short for the amount of road prefabs specified in the config!");
+                data.currTrial.TimeAllotted = 1000;
+            }
         }
+
+
+        // We have left the previous terrain chunk, never to return - so destroy all of it.
+        //if (relativePos > terrainPercentageForNewChunk)
+        //{
+        //    Destroy(prevTerrainChunk);
+        //    prevTerrainChunk = currTerrainChunk;
+        //}
 
         // Generate the required chunks in the current prefab spec.
         if (CurrentRoadPrefab < data.currTrial.Roads.Count && relativePos > terrainPercentageForNewChunk)
@@ -84,14 +96,13 @@ public class TerrainGenerator : MonoBehaviour
             GameObject RoadPrefab = (GameObject)Resources.Load("prefabs/" + data.currTrial.Roads[CurrentRoadPrefab].PrefabName);
 
             // Here we want to instantiate enough chunks to last the time specified in the config
-            //var ChunksRequired = CalculateNumberOfChunksRequired(data.currTrial.Roads[CurrentRoadPrefab].TimeToExist, data.GlobalData.MovementSpeed, 100);
+            //var ChunksRequired = CalculateNumberOfChunksRequired(data.currTrial.Roads[CurrentRoadPrefab].TimeToExist, data.GlobalData.MovementSpeed, (int) terrainSize.z);
             //for (int i = 0; i < ChunksRequired; i++)
             //{
-
             float xOffset = DetermineXAxisOffset();
             prevTerrainChunk = currTerrainChunk;
             currTerrainChunk = Instantiate(RoadPrefab, new Vector3(xOffset, 0, currTerrainChunk.transform.position.z + terrainSize.z), Quaternion.identity);
-                _createdGameObjects.Add(currTerrainChunk);
+            _createdGameObjects.Add(currTerrainChunk);
             //}
 
             CurrentRoadPrefab++;
@@ -100,14 +111,15 @@ public class TerrainGenerator : MonoBehaviour
 
     private float DetermineXAxisOffset()
     {
-        print(transform.position.x - currTerrainChunk.transform.position.x);
         if (transform.position.x - currTerrainChunk.transform.position.x < 230)
         {
             return currTerrainChunk.transform.position.x - 189.4f;
-        } else if (transform.position.x - currTerrainChunk.transform.position.x > 270)
+        }
+        else if (transform.position.x - currTerrainChunk.transform.position.x > 270)
         {
             return currTerrainChunk.transform.position.x + 194.5f;
-        } else
+        }
+        else
         {
             return currTerrainChunk.transform.position.x;
         }
@@ -126,7 +138,8 @@ public class TerrainGenerator : MonoBehaviour
                 if (CurrEvent.DespawnTime == 0f)
                 {
                     ChunkCalculationTime = data.currTrial.TimeAllotted;
-                } else
+                }
+                else
                 {
                     ChunkCalculationTime = CurrEvent.DespawnTime - CurrEvent.SpawnTime;
                 }

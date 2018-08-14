@@ -4,7 +4,7 @@
     "CHARACTER DATA": "CHARACTER DATA----------*********-------------------CHARACTER DATA",
 
     "GlobalData": {
-        "MovementSpeed": 30
+        "MovementSpeed": 25
     },
 
     "BLOCK DATA": "BLOCK DATA---------------------*********--------------------BLOCK DATA",
@@ -106,7 +106,7 @@
                     "TimeToExist": 20000
                 }
             ],
-            "TimeAllotted": 100000,
+            "TimeAllotted": 1400000,
             "Events": [
                 {
                     "SpawnTime": 1000,

@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -89,8 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000002, guid: 4470f20f0b8fe404c8a0a64e536a62c0,
-    type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -375,8 +374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6cc01e77eef3804993e8977982cd5c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerBar: {fileID: 486437925}
-  thirstBar: {fileID: 2119562098}
   data:
     OutputTimesPerSecond: 0
     isGameStarted: 0
@@ -620,6 +617,7 @@ MonoBehaviour:
     type: 2}
   LaneLeft_100m: {fileID: 1585039667633296, guid: 38e4b8fe57799394088ce3c983318b50,
     type: 2}
+  roadPrefabs: []
   currTerrain: {fileID: 0}
   currTerrainChunk: {fileID: 0}
   prevTerrainChunk: {fileID: 0}
@@ -682,6 +680,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hungerBar: {fileID: 486437925}
   thirstBar: {fileID: 2119562098}
+  data:
+    OutputTimesPerSecond: 0
+    isGameStarted: 0
+    currTrial:
+      TrialId: 0
+      TrialName: 
+      Header: 
+      Roads: []
+      FileLocation: 
+      TimeAllotted: 0
+      Events: []
+      FinalScoreAssignments: []
+    currBlock:
+      BlockId: 0
+      BlockName: 
+      Notes: 
+      trialOrderIndex: 0
+      TrialOrder: 
+    GlobalData:
+      MovementSpeed: 0
+    blockOrderIndex: 0
+    BlockOrder: 
+    BlockList: []
+    TrialList: []
+    currTrialOrder: 
 --- !u!1 &1525046758
 GameObject:
   m_ObjectHideFlags: 0

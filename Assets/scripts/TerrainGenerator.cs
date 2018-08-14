@@ -16,34 +16,18 @@ public class TerrainGenerator : MonoBehaviour
     const float LEFT_LANE_POS_Y = 0.006f;
     const float LEFT_LANE_POS_Z = 50f;
 
-    const float BILLBOARD_RIGHT_POS_X = 261.56f;
-    const float BILLBOARD_RIGHT_POS_Y = 0.0f;
-    const float BILLBOARD_RIGHT_POS_Z = 218.87f;
-
-
-    // This is the standard (prefab) chunk we want to load to simulate
-    // an infinite roadway.
-    public GameObject road_normal_100m;
-
-    // Prefabs for loading
-    public GameObject billboard;
-    public GameObject LaneRight_100m;
-    public GameObject LaneLeft_100m;
-
-    public List<GameObject> roadPrefabs;
+    private List<GameObject> roadPrefabs;
 
     // Reference pointers
-    public GameObject currTerrain;
-    public GameObject currTerrainChunk;
-    public GameObject prevTerrainChunk;
+    private GameObject currTerrain;
+    private GameObject currTerrainChunk;
+    private GameObject prevTerrainChunk;
 
-    public int CurrentRoadPrefab = 0;
+    private int CurrentRoadPrefab;
 
-    public List<GameObject> _createdGameObjects;
+    private List<GameObject> _createdGameObjects;
 
-    public GameData data;
-
-    public enum LaneSide { left, right };
+    private GameData data;
 
     // Use this for initialization.
     void Start()
@@ -51,6 +35,9 @@ public class TerrainGenerator : MonoBehaviour
         Debug.Log("terrain gen start");
         // Carry over data.
         data = Toolbox.Instance.data;
+
+        _createdGameObjects = new List<GameObject>();
+        roadPrefabs = new List<GameObject>();
 
         // Simulation starts with only one chunk, but load all prefabs
         // to reduce fps drop on instantiate.
@@ -60,6 +47,7 @@ public class TerrainGenerator : MonoBehaviour
             roadPrefabs.Add(RoadPrefab);
         }
 
+        CurrentRoadPrefab = 0;
         currTerrainChunk = Instantiate(roadPrefabs[CurrentRoadPrefab], new Vector3(0, 0, 0), Quaternion.identity);
         //currTerrainChunk = GameObject.Find("road1Example");
         prevTerrainChunk = null;

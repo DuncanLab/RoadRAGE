@@ -9,10 +9,6 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class GameController : MonoBehaviour
 {
-
-    public ProgressBar hungerBar;
-    public ProgressBar thirstBar;
-
     public GameData data;
 
     // Game objects
@@ -21,12 +17,12 @@ public class GameController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Awake Called in game controller!!");
-        data.currTrial.Timer = new System.Diagnostics.Stopwatch();
-
         // Carry over data.
         data = Toolbox.Instance.data;
 
+        Debug.Log("Awake Called in game controller!!");
+        data.currTrial.Timer = new System.Diagnostics.Stopwatch();
+        
         // Init block, trial positions on the first go around
         if (!data.isGameStarted)
         {
@@ -36,7 +32,6 @@ public class GameController : MonoBehaviour
             data.currBlock = data.BlockList[data.BlockOrder[data.blockOrderIndex] - 1];
             data.currTrial = data.TrialList[data.currBlock.TrialOrder[data.currBlock.trialOrderIndex] - 1];
             data.currTrial.Timer = new System.Diagnostics.Stopwatch();
-
 
             LoadNextTrial();
             data.isGameStarted = true;
@@ -80,9 +75,6 @@ public class GameController : MonoBehaviour
             data.currBlock.trialOrderIndex++;
             LoadNextTrial();
         }
-
-        UpdateProgressBars();
-
     }
 
     private bool IsTrialOver(bool spacePressed)
@@ -145,12 +137,4 @@ public class GameController : MonoBehaviour
         data.currTrial.Timer.Reset();
         data.currTrial.Timer.Start();
     }
-
-    private void UpdateProgressBars()
-    {
-        int newBarValue = (int) Math.Round(100f - (data.currTrial.Timer.ElapsedMilliseconds / 1000f));
-        hungerBar.BarValue = newBarValue;
-        thirstBar.BarValue = newBarValue;
-    }
-
 }

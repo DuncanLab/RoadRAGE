@@ -34,7 +34,7 @@ public class SignGenerator : MonoBehaviour
                 {
                     if (currEvent.SpawnSide.ToLower().Equals("r"))
                     {
-                        var filedata = File.ReadAllBytes(Application.dataPath + "/config/images/Sign1.png");
+                        var filedata = File.ReadAllBytes(Application.dataPath + "/StreamingAssets/config/images/Sign1.png");
                         Texture2D tex = new Texture2D(1, 1);
                         tex.LoadImage(filedata);
 
@@ -45,7 +45,7 @@ public class SignGenerator : MonoBehaviour
                     // left side
                     else
                     {
-                        var filedata = File.ReadAllBytes(Application.dataPath + "/config/images/Sign2.png");
+                        var filedata = File.ReadAllBytes(Application.dataPath + "/StreamingAssets/config/images/Sign2.png");
                         Texture2D tex = new Texture2D(1, 1);
                         tex.LoadImage(filedata);
 

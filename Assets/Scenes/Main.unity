@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -89,8 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000002, guid: 4470f20f0b8fe404c8a0a64e536a62c0,
-    type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -159,7 +158,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.03
-  far clip plane: 1000
+  far clip plane: 400
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -375,8 +374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6cc01e77eef3804993e8977982cd5c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerBar: {fileID: 486437925}
-  thirstBar: {fileID: 2119562098}
   data:
     OutputTimesPerSecond: 0
     isGameStarted: 0
@@ -613,18 +610,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b5fc3c536a5aa44b4d565b9263a066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  road_normal_100m: {fileID: 1275393077318490, guid: 9278d26d45aa8c348a901c442b2396b0,
-    type: 2}
-  billboard: {fileID: 1594360576247696, guid: 25e340103612c784491769a2e69c4aa8, type: 2}
-  LaneRight_100m: {fileID: 1990561190136042, guid: dedb653c8e3be9b448a17d1a5600454d,
-    type: 2}
-  LaneLeft_100m: {fileID: 1585039667633296, guid: 38e4b8fe57799394088ce3c983318b50,
-    type: 2}
-  currTerrain: {fileID: 0}
-  currTerrainChunk: {fileID: 0}
-  prevTerrainChunk: {fileID: 0}
-  CurrentRoadPrefab: 0
-  _createdGameObjects: []
+--- !u!114 &1438112579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1438112577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ecd143fe8c46e0419e14cd1e27d385b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currPath: {fileID: 0}
+  wheelFL: {fileID: 904543326}
+  wheelFR: {fileID: 888157655}
+  pid:
+    pFactor: 0.8
+    iFactor: 0.4
+    dFactor: 0.05
+  currPathTag: 
+--- !u!114 &1438112580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1438112577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce6829d3009a0f749b87f9ccabbe8956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hungerBar: {fileID: 486437925}
+  thirstBar: {fileID: 2119562098}
   data:
     OutputTimesPerSecond: 0
     isGameStarted: 0
@@ -650,21 +667,6 @@ MonoBehaviour:
     BlockList: []
     TrialList: []
     currTrialOrder: 
---- !u!114 &1438112579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1438112577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ecd143fe8c46e0419e14cd1e27d385b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currPath: {fileID: 0}
-  wheelFL: {fileID: 904543326}
-  wheelFR: {fileID: 888157655}
-  currPathTag: 
 --- !u!1 &1525046758
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,35 +971,35 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 14600006, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_ForwardFriction.m_Stiffness
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 14600006, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_SidewaysFriction.m_Stiffness
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 14600004, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_ForwardFriction.m_Stiffness
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 14600004, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_SidewaysFriction.m_Stiffness
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 14600000, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_ForwardFriction.m_Stiffness
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 14600002, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_ForwardFriction.m_Stiffness
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 14600002, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_SidewaysFriction.m_Stiffness
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 14600000, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_SidewaysFriction.m_Stiffness
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11400024, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: engineSoundStyle
@@ -1047,7 +1049,7 @@ Prefab:
     - target: {fileID: 224763426186284840, guid: 5eefba205a58c8c4a937c97b87c185a3,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -112.1
+      value: -112.1001
       objectReference: {fileID: 0}
     - target: {fileID: 114769781544105922, guid: 5eefba205a58c8c4a937c97b87c185a3,
         type: 2}

@@ -115,7 +115,7 @@ public class GameController : MonoBehaviour
         // We want to display an image instead of starting an actual trial.
         if (data.currTrial.FileLocation != null)
         {
-            var filedata = File.ReadAllBytes(Application.dataPath + "/config/images/" + data.currTrial.FileLocation);
+            var filedata = File.ReadAllBytes(Application.dataPath + "/StreamingAssets/config/images/" + data.currTrial.FileLocation);
             Texture2D tex = new Texture2D(1, 1);
             tex.LoadImage(filedata);
 

@@ -25,7 +25,7 @@ public class StartController : MonoBehaviour
     void Start()
     {
         isGameLoaded = false;
-        configPath = Application.dataPath.ToString() + "/StreamingAssets/Config/RoadRage.json";
+        configPath = Application.dataPath.ToString() + "/StreamingAssets/config/RoadRage.json";
         Debug.Log(configPath);
 
         inputTextPlaceHold.text = configPath;

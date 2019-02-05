@@ -1,6 +1,4 @@
 ﻿using SFB;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -75,7 +73,8 @@ public class StartController : MonoBehaviour
         if (firstTrial.FileLocation != null)
         {
             SceneManager.LoadScene("Instructions");
-        } else
+        }
+        else
         {
             SceneManager.LoadScene("Main");
         }

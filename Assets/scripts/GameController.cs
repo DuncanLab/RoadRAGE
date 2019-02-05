@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,7 +19,7 @@ public class GameController : MonoBehaviour
         data = Toolbox.Instance.data;
 
         Debug.Log("Start Called in game controller!!");
-        
+
         // Init block, trial positions on the first go around
         if (!data.isGameStarted)
         {
@@ -116,7 +114,7 @@ public class GameController : MonoBehaviour
             {
                 SceneManager.LoadScene("Instructions");
             }
-            
+
             var filedata = File.ReadAllBytes(Application.dataPath + "/StreamingAssets/config/images/" + data.currTrial.FileLocation);
             Texture2D tex = new Texture2D(1, 1);
             tex.LoadImage(filedata);

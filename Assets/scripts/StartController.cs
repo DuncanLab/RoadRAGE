@@ -1,6 +1,4 @@
 ﻿using SFB;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -61,8 +59,25 @@ public class StartController : MonoBehaviour
 
         var temp = JsonUtility.FromJson<GameData>(file);
         Toolbox.Instance.data = temp;
+        data = Toolbox.Instance.data;
         isGameLoaded = true;
         Debug.Log("Loading main game");
-        SceneManager.LoadScene("Main");
+
+        // Retrieve the first trial to determine whether instructions are required
+        var firstBlockIndex = data.BlockOrder[0] - 1;
+        var firstBlock = data.BlockList[firstBlockIndex];
+        var firstTrialIndex = data.BlockList[firstBlockIndex].TrialOrder[0] - 1;
+        var firstTrial = data.TrialList[firstTrialIndex];
+
+        // A file location is specified so we assume it's instructions
+        if (firstTrial.FileLocation != null)
+        {
+            SceneManager.LoadScene("Instructions");
+        }
+        else
+        {
+            SceneManager.LoadScene("Main");
+        }
+
     }
 }

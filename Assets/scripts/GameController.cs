@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,9 +18,8 @@ public class GameController : MonoBehaviour
         // Carry over data.
         data = Toolbox.Instance.data;
 
-        Debug.Log("Awake Called in game controller!!");
-        data.currTrial.Timer = new System.Diagnostics.Stopwatch();
-        
+        Debug.Log("Start Called in game controller!!");
+
         // Init block, trial positions on the first go around
         if (!data.isGameStarted)
         {
@@ -30,8 +27,6 @@ public class GameController : MonoBehaviour
             data.blockOrderIndex = 0;
 
             data.currBlock = data.BlockList[data.BlockOrder[data.blockOrderIndex] - 1];
-            data.currTrial = data.TrialList[data.currBlock.TrialOrder[data.currBlock.trialOrderIndex] - 1];
-            data.currTrial.Timer = new System.Diagnostics.Stopwatch();
 
             LoadNextTrial();
             data.isGameStarted = true;
@@ -115,6 +110,11 @@ public class GameController : MonoBehaviour
         // We want to display an image instead of starting an actual trial.
         if (data.currTrial.FileLocation != null)
         {
+            if (!SceneManager.GetActiveScene().name.Equals("Instructions"))
+            {
+                SceneManager.LoadScene("Instructions");
+            }
+
             var filedata = File.ReadAllBytes(Application.dataPath + "/StreamingAssets/config/images/" + data.currTrial.FileLocation);
             Texture2D tex = new Texture2D(1, 1);
             tex.LoadImage(filedata);

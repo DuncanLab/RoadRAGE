@@ -106,7 +106,7 @@
                     "TimeToExist": 20000
                 }
             ],
-            "TimeAllotted": 1400000,
+            "TimeAllotted": 85000,
             "Events": [
                 {
                     "SpawnTime": 1000,

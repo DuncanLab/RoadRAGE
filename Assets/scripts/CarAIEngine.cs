@@ -50,7 +50,6 @@ public class CarAIEngine : MonoBehaviour
         // Need a check here to see if there on an off ramp then do nothing
         // when input arrives.
 
-
         // Check for left/right input, and change lanes accordingly. 
         // All other movement is restricted for simulation purposes
         float h = CrossPlatformInputManager.GetAxis("Horizontal");
@@ -60,49 +59,43 @@ public class CarAIEngine : MonoBehaviour
         {
             if (currPathTag == "LeftPath")
             {
-                if (IsLaneAdjacent("CenterPath"))
-                {
-                    currPathTag = "CenterPath";
-                }
+                ChangeLanes("CenterPath");
             }
             else
             {
                 // Only change one lane at a time.
                 if (Math.Abs(wheelFL.steerAngle) < 0.001f)
                 {
-                    if (IsLaneAdjacent("RightPath"))
-                    {
-                        currPathTag = "RightPath";
-                    }
+                    ChangeLanes("RightPath");
                 }
             }
-            nodes.Clear();
-            currNodeIndex = 0;
+
         }
+
         // Move left one lane.
         else if (h < 0f)
         {
             if (currPathTag == "RightPath")
             {
-                if (IsLaneAdjacent("CenterPath"))
-                {
-                    currPathTag = "CenterPath";
-                }
+                ChangeLanes("CenterPath");
             }
             else
             {
                 if (Math.Abs(wheelFL.steerAngle) < 0.001f)
                 {
-                    if (IsLaneAdjacent("LeftPath"))
-                    {
-                        currPathTag = "LeftPath";
-                    }
-
+                    ChangeLanes("LeftPath");
                 }
             }
+        }
+    }
+
+    private void ChangeLanes(string targetPath)
+    {
+        if (IsLaneAdjacent(targetPath))
+        {
+            currPathTag = targetPath;
             nodes.Clear();
             currNodeIndex = 0;
-
         }
     }
 
@@ -183,9 +176,7 @@ public class CarAIEngine : MonoBehaviour
                     break;
                 }
             }
-
         }
-
         return adjacent;
     }
 

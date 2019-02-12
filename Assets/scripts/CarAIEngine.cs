@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -61,15 +60,20 @@ public class CarAIEngine : MonoBehaviour
         {
             if (currPathTag == "LeftPath")
             {
-                currPathTag = "CenterPath";
+                if (IsLaneAdjacent("CenterPath"))
+                {
+                    currPathTag = "CenterPath";
+                }
             }
             else
             {
                 // Only change one lane at a time.
                 if (Math.Abs(wheelFL.steerAngle) < 0.001f)
                 {
-                    currPathTag = "RightPath";
-
+                    if (IsLaneAdjacent("RightPath"))
+                    {
+                        currPathTag = "RightPath";
+                    }
                 }
             }
             nodes.Clear();
@@ -80,13 +84,19 @@ public class CarAIEngine : MonoBehaviour
         {
             if (currPathTag == "RightPath")
             {
-                currPathTag = "CenterPath";
+                if (IsLaneAdjacent("CenterPath"))
+                {
+                    currPathTag = "CenterPath";
+                }
             }
             else
             {
                 if (Math.Abs(wheelFL.steerAngle) < 0.001f)
                 {
-                    currPathTag = "LeftPath";
+                    if (IsLaneAdjacent("LeftPath"))
+                    {
+                        currPathTag = "LeftPath";
+                    }
 
                 }
             }
@@ -153,6 +163,30 @@ public class CarAIEngine : MonoBehaviour
         {
             currNodeIndex++;
         }
+    }
+
+    private bool IsLaneAdjacent(string pathTag)
+    {
+        bool adjacent = false;
+        GameObject[] nextPath = GameObject.FindGameObjectsWithTag(pathTag);
+
+        // Check all center path nodes to see if any are close enough to allow a lane change.
+        for (int i = 0; i < nextPath.Length; i++)
+        {
+            Transform[] nodeSet = nextPath[i].GetComponentsInChildren<Transform>();
+            // Start at 1 to ignore the parent
+            for (int j = 1; j < nodeSet.Length; j++)
+            {
+                if (Vector3.Distance(transform.position, nodeSet[j].transform.position) < 10f)
+                {
+                    adjacent = true;
+                    break;
+                }
+            }
+
+        }
+
+        return adjacent;
     }
 
     private void OnDrawGizmos()

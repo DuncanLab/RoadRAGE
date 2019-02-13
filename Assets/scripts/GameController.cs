@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
             data.currBlock.trialOrderIndex = 0;
             data.blockOrderIndex = 0;
 
+            Debug.Log("Loading block: " + data.BlockOrder[data.blockOrderIndex]);
             data.currBlock = data.BlockList[data.BlockOrder[data.blockOrderIndex] - 1];
 
             LoadNextTrial();
@@ -44,14 +45,16 @@ public class GameController : MonoBehaviour
         if (IsTrialOver(spacePressed))
         {
             UnloadCurrentTrial();
+            data.currBlock.trialOrderIndex++;
 
             // Load next block (if it exists)
-            if (data.currBlock.trialOrderIndex + 1 == data.currBlock.TrialOrder.Count)
+            if (data.currBlock.trialOrderIndex >= data.currBlock.TrialOrder.Count)
             {
+                data.blockOrderIndex++;
                 // On the last block so end the simulation
-                if (data.blockOrderIndex + 1 == data.BlockOrder.Count)
+                if (data.blockOrderIndex >= data.BlockOrder.Count)
                 {
-                    Debug.LogWarning("Simulation End!");
+                    Debug.LogWarning("Simulation End! (All blocks have been completed)");
                     Application.Quit();
 #if UNITY_EDITOR
                     UnityEditor.EditorApplication.isPlaying = false;
@@ -61,14 +64,15 @@ public class GameController : MonoBehaviour
                 // blocks are remaining, so continue.
                 else
                 {
-                    data.currBlock.trialOrderIndex = -1;
-                    data.blockOrderIndex++;
+                    Debug.Log("Loading block: " + data.BlockOrder[data.blockOrderIndex]);
                     data.currBlock = data.BlockList[data.BlockOrder[data.blockOrderIndex] - 1];
+                    LoadNextTrial();
                 }
             }
-
-            data.currBlock.trialOrderIndex++;
-            LoadNextTrial();
+            else
+            {
+                LoadNextTrial();
+            }
         }
     }
 
@@ -103,6 +107,7 @@ public class GameController : MonoBehaviour
 
     private void LoadNextTrial()
     {
+        Debug.Log("Loading trial: " + data.currBlock.TrialOrder[data.currBlock.trialOrderIndex]);
         data.currTrial = data.TrialList[data.currBlock.TrialOrder[data.currBlock.trialOrderIndex] - 1];
         data.currTrial.Timer = new System.Diagnostics.Stopwatch();
 

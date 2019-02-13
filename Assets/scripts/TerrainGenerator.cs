@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 // This class controls the basic "infinite scroll" effect that is 
 // is used for the simulation.
@@ -19,7 +18,7 @@ public class TerrainGenerator : MonoBehaviour
     private List<GameObject> roadPrefabs;
 
     // Reference pointers
-    private GameObject currTerrain;
+    private readonly GameObject currTerrain;
     private GameObject currTerrainChunk;
     private GameObject prevTerrainChunk;
 
@@ -43,7 +42,7 @@ public class TerrainGenerator : MonoBehaviour
         // to reduce fps drop on instantiate.
         for (int i = 0; i < data.currTrial.Roads.Count; i++)
         {
-        GameObject RoadPrefab = Resources.Load<GameObject>("prefabs/" + data.currTrial.Roads[i].PrefabName);
+            GameObject RoadPrefab = Resources.Load<GameObject>("prefabs/" + data.currTrial.Roads[i].PrefabName);
             roadPrefabs.Add(RoadPrefab);
         }
 
@@ -51,7 +50,7 @@ public class TerrainGenerator : MonoBehaviour
         currTerrainChunk = Instantiate(roadPrefabs[CurrentRoadPrefab], new Vector3(0, 0, 0), Quaternion.identity);
         //currTerrainChunk = GameObject.Find("road1Example");
         prevTerrainChunk = null;
-        _createdGameObjects.Add(prevTerrainChunk);
+        _createdGameObjects.Add(currTerrainChunk);
         CurrentRoadPrefab = 1;
 
         // pre-load all the lanes here
@@ -67,14 +66,17 @@ public class TerrainGenerator : MonoBehaviour
         float terrainPercentageForNewChunk = terrainSize.z / 4;
 
         // Safety incase the user sets the total time allotted for longer
-        // than the amount of road prefabs they've specified, we artificially
-        // set the TimeAllotted to 1sec so the trial will end.
+        // than the amount of road prefabs they've specified, (the car
+        // would just run off the end in this scenario)
         if (CurrentRoadPrefab == data.currTrial.Roads.Count)
         {
             if (relativePos > terrainSize.z - 20)
             {
-                Debug.LogError("Time allotted is too short for the amount of road prefabs specified in the config!");
-                data.currTrial.TimeAllotted = 1000;
+                Debug.LogError("There are not enough prefabs for the time allotted! Please shorten it, or add more prefabs to the roads section");
+                Application.Quit();
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
             }
         }
 

@@ -10,7 +10,7 @@
     "BLOCK DATA": "BLOCK DATA---------------------*********--------------------BLOCK DATA",
 
     "BlockOrder": [
-        1,2
+        1,2,3
     ],
     "BlockList": [
         {
@@ -25,10 +25,18 @@
         },
         {
             "BlockId": 2,
-            "BlockName": "First block",
+            "BlockName": "Second block",
             "Notes": "TEST NOTE",
             "TrialOrder": [
                 7,7,7
+            ]
+        },
+        {
+            "BlockId": 3,
+            "BlockName": "Third block",
+            "Notes": "TEST NOTE",
+            "TrialOrder": [
+                7
             ]
         }
     ],
@@ -106,7 +114,7 @@
                     "TimeToExist": 20000
                 }
             ],
-            "TimeAllotted": 1400000,
+            "TimeAllotted": 85000,
             "Events": [
                 {
                     "SpawnTime": 1000,

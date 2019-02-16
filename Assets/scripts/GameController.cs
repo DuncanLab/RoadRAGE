@@ -40,8 +40,8 @@ public class GameController : MonoBehaviour
     {
         if (data.currTrial.TrackResources)
         {
-            GameObject holder = GameObject.Find("GameScriptHolder");
-            holder.AddComponent(typeof(PointsController));
+            GameObject car = GameObject.Find("Car");
+            car.AddComponent(typeof(PointsController));
         }
         else if (SceneManager.GetActiveScene().name.Equals("Main"))
         {

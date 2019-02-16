@@ -64,7 +64,7 @@ public class PointsController : MonoBehaviour
             isDrinkCollision = false;
         }
 
-        int newBarValue = (int)Math.Round(5f - (data.currTrial.Timer.ElapsedMilliseconds / 1000f));
+        int newBarValue = (int)Math.Round(100f - (data.currTrial.Timer.ElapsedMilliseconds / 1000f));
 
         hungerBar.BarValue = newBarValue;
         hungerBar.BarValue += foodPickupOffset;

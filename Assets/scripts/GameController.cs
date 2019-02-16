@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour
         // Carry over data.
         data = Toolbox.Instance.data;
 
+        CheckResourceState();
+
         Debug.Log("Start Called in game controller!!");
 
         // Init block, trial positions on the first go around
@@ -31,6 +33,22 @@ public class GameController : MonoBehaviour
 
             LoadNextTrial();
             data.isGameStarted = true;
+        }
+    }
+
+    private void CheckResourceState()
+    {
+        if (data.currTrial.TrackResources)
+        {
+            GameObject holder = GameObject.Find("GameScriptHolder");
+            holder.AddComponent(typeof(PointsController));
+        }
+        else if (SceneManager.GetActiveScene().name.Equals("Main"))
+        {
+            GameObject hungerBar = GameObject.Find("HungerBar").gameObject;
+            GameObject thirstBar = GameObject.Find("ThirstBar").gameObject;
+            hungerBar.SetActive(false);
+            thirstBar.SetActive(false);
         }
     }
 
@@ -89,9 +107,10 @@ public class GameController : MonoBehaviour
             }
         }
 
-        // This should check if the current trial's allotted time has passed.
-        else if (!data.currTrial.resourcesRemain ||
-            data.currTrial.Timer.ElapsedMilliseconds >= Math.Abs(data.currTrial.TimeAllotted))
+        // This should check if the current trial's allotted time has passed, or if 
+        // the user is out of resources
+        else if (data.currTrial.Timer.ElapsedMilliseconds >= Math.Abs(data.currTrial.TimeAllotted) ||
+            (!data.currTrial.resourcesRemain && data.currTrial.TrackResources))
         {
             trialOver = true;
         }
@@ -135,7 +154,6 @@ public class GameController : MonoBehaviour
         {
             //Reset Scene
             SceneManager.LoadScene("Main");
-
             //Load the appropriate prefabs.
         }
 

@@ -19,6 +19,9 @@ public class PointsController : MonoBehaviour
         // Carry over data.
         data = Toolbox.Instance.data;
 
+        hungerBar = GameObject.Find("HungerBar").gameObject.GetComponent<ProgressBar>();
+        thirstBar = GameObject.Find("ThirstBar").gameObject.GetComponent<ProgressBar>();
+
         // We start with resources
         data.currTrial.resourcesRemain = true;
     }
@@ -61,7 +64,7 @@ public class PointsController : MonoBehaviour
             isDrinkCollision = false;
         }
 
-        int newBarValue = (int)Math.Round(100f - (data.currTrial.Timer.ElapsedMilliseconds / 1000f));
+        int newBarValue = (int)Math.Round(5f - (data.currTrial.Timer.ElapsedMilliseconds / 1000f));
 
         hungerBar.BarValue = newBarValue;
         hungerBar.BarValue += foodPickupOffset;

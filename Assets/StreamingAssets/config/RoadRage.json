@@ -84,6 +84,7 @@
             "TrialId": 7,
             "TrialName": "Stage1",
             "Header": "Explore!",
+            "TrackResources" : true,
             "Roads": [
                 {
                     "PrefabName": "road_grass_400m_WP_straight",

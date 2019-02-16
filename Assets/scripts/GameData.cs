@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 // This is the master class which contains all
 // data pertain to the simulation that must be 
@@ -48,9 +46,11 @@ public class GameData
         public string TrialName;
         public System.Diagnostics.Stopwatch Timer; // Use stopwatch for it's accuracy.
         public string Header; // <---- general instruction (should be in middle of HUD) (OM).
+        public bool TrackResources; // Turn the resource system on/off.
         public List<Road> Roads; // <---- what prefabs are used. first stretch that is generated is road1 prefab and then road2 prefab these names correspond with prefab names in UNITY
         public string FileLocation; // Path to image file used for heads up display.
         public float TimeAllotted; // Amount of time in seconds that the trial will continue for. <--- when this is equal to -1 it means they need to press "SPACE" (OM). <---- When this is any positive number that means it remains on the screen for that long(OM)
+        public bool resourcesRemain; // Whether or not the user still has resources left, if not we end the trial.
         public List<Event> Events; // List of all spawn events for the trial.
         public List<ScoreAssignment> FinalScoreAssignments; //  <--- depending on what lane they end in, they recieve point value associated with lane.
     }

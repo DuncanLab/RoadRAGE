@@ -11,6 +11,8 @@ TagManager:
   - RightPath
   - LeftPath
   - RampPath
+  - HungerBar
+  - ThirstBar
   layers:
   - Default
   - TransparentFX

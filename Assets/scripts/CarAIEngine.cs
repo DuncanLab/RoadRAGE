@@ -45,6 +45,14 @@ public class CarAIEngine : MonoBehaviour
         CheckWaypointDistance();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name.Equals("WallLock"))
+        {
+            data.currTrial.LockByTime = 1;
+        }
+    }
+
     private void CheckUserInput()
     {
         // Disallow user input if lock has been reached.

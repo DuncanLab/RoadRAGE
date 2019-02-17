@@ -391,6 +391,7 @@ MonoBehaviour:
       TrialName: 
       Header: 
       TrackResources: 0
+      LockByTime: 0
       Roads: []
       FileLocation: 
       TimeAllotted: 0
@@ -431,6 +432,7 @@ MonoBehaviour:
       TrialName: 
       Header: 
       TrackResources: 0
+      LockByTime: 0
       Roads: []
       FileLocation: 
       TimeAllotted: 0

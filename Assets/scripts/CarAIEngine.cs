@@ -45,8 +45,19 @@ public class CarAIEngine : MonoBehaviour
         CheckWaypointDistance();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name.Equals("WallLock"))
+        {
+            data.currTrial.LockByTime = 1;
+        }
+    }
+
     private void CheckUserInput()
     {
+        // Disallow user input if lock has been reached.
+        if (data.currTrial.LockByTime != 0 && data.currTrial.Timer.ElapsedMilliseconds >= data.currTrial.LockByTime) return;
+
         // Need a check here to see if there on an off ramp then do nothing
         // when input arrives.
 

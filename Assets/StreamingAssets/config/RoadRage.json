@@ -85,6 +85,7 @@
             "TrialName": "Stage1",
             "Header": "Explore!",
             "TrackResources" : true,
+            "LockByTime": 8000,
             "Roads": [
                 {
                     "PrefabName": "road_grass_400m_WP_straight",

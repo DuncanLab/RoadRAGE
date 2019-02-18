@@ -5,14 +5,12 @@ using Random = System.Random;
 
 public class PointsController : MonoBehaviour
 {
-
     public ProgressBar hungerBar;
     public ProgressBar thirstBar;
     public TextMeshProUGUI pointsCounter;
 
     private bool isFoodCollision = false;
     private bool isDrinkCollision = false;
-    private bool isOnGoingCollision = false;
 
     private int foodPickupOffset = 0;
     private int drinkPickupOffset = 0;
@@ -44,18 +42,8 @@ public class PointsController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        // If we don't do this, points could be counted more than once.
-        if (isOnGoingCollision)
-        {
-            return;
-        }
-        else
-        {
-            isOnGoingCollision = true;
-        }
-
         if (other.name.ToLower().EndsWith("food"))
         {
             isFoodCollision = true;
@@ -64,7 +52,7 @@ public class PointsController : MonoBehaviour
         {
             isDrinkCollision = true;
         }
-        else if (other.name.ToLower().Contains("money"))
+        else if (other.name.ToLower().Contains("dice"))
         {
             foreach (GameData.Pickup pickup in data.currTrial.Pickups)
             {
@@ -75,15 +63,10 @@ public class PointsController : MonoBehaviour
                     data.currTrial.PointsCollected += newPoints;
                     break;
                 }
+
             }
         }
-
         Destroy(other.gameObject);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        isOnGoingCollision = false;
     }
 
     private int DeterminePointsUsingProbabilities(double WinProb, double LoseProb, int WinPoints, int LosePoints)

@@ -118,7 +118,7 @@
             ],
             "Pickups": [
                 {
-                    "PickupName": "Money1",
+                    "PickupName": "Dice1",
                     "WinChance": 0.5,
                     "LoseChance": 0.5,
                     "WinPoints": 25,

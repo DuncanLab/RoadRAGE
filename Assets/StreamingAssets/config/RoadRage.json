@@ -116,6 +116,15 @@
                     "TimeToExist": 20000
                 }
             ],
+            "Pickups": [
+                {
+                    "PickupName": "Money1",
+                    "WinChance": 0.5,
+                    "LoseChance": 0.5,
+                    "WinPoints": 25,
+                    "LosePoints": -25
+                }
+            ],
             "TimeAllotted": 85000,
             "Events": [
                 {

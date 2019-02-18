@@ -38,17 +38,24 @@ public class GameController : MonoBehaviour
 
     private void CheckResourceState()
     {
-        if (data.currTrial.TrackResources)
+        if (data.currTrial.TrackResources || data.currTrial.TrackPoints)
         {
             GameObject car = GameObject.Find("Car");
             car.AddComponent(typeof(PointsController));
         }
-        else if (SceneManager.GetActiveScene().name.Equals("Main"))
+
+        if (!data.currTrial.TrackResources && SceneManager.GetActiveScene().name.Equals("Main"))
         {
             GameObject hungerBar = GameObject.Find("HungerBar").gameObject;
             GameObject thirstBar = GameObject.Find("ThirstBar").gameObject;
             hungerBar.SetActive(false);
             thirstBar.SetActive(false);
+        }
+
+        if (!data.currTrial.TrackPoints && SceneManager.GetActiveScene().name.Equals("Main"))
+        {
+            GameObject pointsCounter = GameObject.Find("PointsCounter").gameObject;
+            pointsCounter.SetActive(false);
         }
     }
 

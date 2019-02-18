@@ -85,6 +85,7 @@
             "TrialName": "Stage1",
             "Header": "Explore!",
             "TrackResources" : true,
+            "TrackPoints": true,
             "LockByTime": 8000,
             "Roads": [
                 {

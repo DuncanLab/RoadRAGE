@@ -22,9 +22,16 @@ public class PointsController : MonoBehaviour
         // Carry over data.
         data = Toolbox.Instance.data;
 
-        hungerBar = GameObject.Find("HungerBar").gameObject.GetComponent<ProgressBar>();
-        thirstBar = GameObject.Find("ThirstBar").gameObject.GetComponent<ProgressBar>();
-        pointsCounter = GameObject.Find("PointsCounter").gameObject.GetComponent<TextMeshProUGUI>();
+        if (data.currTrial.TrackResources)
+        {
+            hungerBar = GameObject.Find("HungerBar").gameObject.GetComponent<ProgressBar>();
+            thirstBar = GameObject.Find("ThirstBar").gameObject.GetComponent<ProgressBar>();
+        }
+
+        if (data.currTrial.TrackPoints)
+        {
+            pointsCounter = GameObject.Find("PointsCounter").gameObject.GetComponent<TextMeshProUGUI>();
+        }
 
         // We start with resources
         data.currTrial.resourcesRemain = true;
@@ -32,14 +39,8 @@ public class PointsController : MonoBehaviour
 
     private void Update()
     {
-        UpdateProgressBars();
-        UpdatePointsCounter();
-
-        // When either resource gets to zero, end the trial.
-        if (hungerBar.BarValue == 0 || thirstBar.BarValue == 0)
-        {
-            data.currTrial.resourcesRemain = false;
-        }
+        if (data.currTrial.TrackResources) UpdateProgressBars();
+        if (data.currTrial.TrackPoints) UpdatePointsCounter();
     }
 
     private void OnTriggerExit(Collider other)
@@ -106,6 +107,12 @@ public class PointsController : MonoBehaviour
 
         thirstBar.BarValue = newBarValue;
         thirstBar.BarValue += drinkPickupOffset;
+
+        // When either resource gets to zero, end the trial.
+        if (hungerBar.BarValue == 0 || thirstBar.BarValue == 0)
+        {
+            data.currTrial.resourcesRemain = false;
+        }
     }
 
     private void UpdatePointsCounter()

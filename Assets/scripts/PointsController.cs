@@ -51,30 +51,24 @@ public class PointsController : MonoBehaviour
     {
         int newPoints = 0;
 
-        if (other.name.ToLower().EndsWith("food"))
+        if (other.name.ToLower().Contains("food"))
         {
             colType = CollisionType.Food;
-            newPoints = 25;
+            GameData.Pickup p = GetMatchingPickup(other.name);
+            newPoints = p.WinPoints;
         }
-        else if (other.name.ToLower().EndsWith("drink"))
+        else if (other.name.ToLower().Contains("drink"))
         {
             colType = CollisionType.Drink;
-            newPoints = 25;
+            GameData.Pickup p = GetMatchingPickup(other.name);
+            newPoints = p.WinPoints;
         }
         else if (other.name.ToLower().Contains("dice"))
         {
             colType = CollisionType.Dice;
-            foreach (GameData.Pickup pickup in data.currTrial.Pickups)
-            {
-                if (other.name.ToLower().Equals(pickup.PickupName.ToLower()))
-                {
-                    // Run the probabilities
-                    newPoints = DeterminePointsUsingProbabilities(pickup.WinChance, pickup.LoseChance, pickup.WinPoints, pickup.LosePoints);
-                    data.currTrial.PointsCollected += newPoints;
-                    break;
-                }
-
-            }
+            GameData.Pickup p = GetMatchingPickup(other.name);
+            newPoints = DeterminePointsUsingProbabilities(p);
+            data.currTrial.PointsCollected += newPoints;
         }
         else
         {
@@ -89,19 +83,19 @@ public class PointsController : MonoBehaviour
         Destroy(other.gameObject);
     }
 
-    private int DeterminePointsUsingProbabilities(double WinProb, double LoseProb, int WinPoints, int LosePoints)
+    private int DeterminePointsUsingProbabilities(GameData.Pickup pickup)
     {
         int points = 0;
         Random rand = new Random();
-        bool isWin = rand.NextDouble() < WinProb;
+        bool isWin = rand.NextDouble() < pickup.WinChance;
 
         if (isWin)
         {
-            points = WinPoints;
+            points = pickup.WinPoints;
         }
         else
         {
-            points = LosePoints;
+            points = pickup.LosePoints;
         }
         return points;
     }
@@ -178,5 +172,20 @@ public class PointsController : MonoBehaviour
         }
 
         GameObject.Find("PickupPopup").GetComponent<PopupController>().SetTextAndShow(popupText, textColor);
+    }
+
+    private GameData.Pickup GetMatchingPickup(string pickupName)
+    {
+        GameData.Pickup p = null;
+        foreach (GameData.Pickup pickup in data.currTrial.Pickups)
+        {
+            if (pickupName.ToLower().Equals(pickup.PickupName.ToLower()))
+            {
+                p = pickup;
+                break;
+            }
+        }
+
+        return p;
     }
 }

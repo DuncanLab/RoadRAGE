@@ -125,7 +125,17 @@
                     "LoseChance": 0.5,
                     "WinPoints": 25,
                     "LosePoints": -25
-                }
+                },
+                {
+                    "PickupName": "Food1",
+                    "WinPoints": 35,
+                    "LosePoints": -25
+                },
+                {
+                    "PickupName": "Drink1",
+                    "WinPoints": 45,
+                    "LosePoints": -25
+                }                                
             ],
             "TimeAllotted": 85000,
             "Events": [

@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour
 
     private void CheckResourceState()
     {
-        if (data.currTrial.TrackResources || data.currTrial.TrackPoints)
+        if (data.currTrial.TrackResources || data.currTrial.TrackPoints || data.currTrial.TrackPickups)
         {
             GameObject car = GameObject.Find("Car");
             car.AddComponent(typeof(PointsController));

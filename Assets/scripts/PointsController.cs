@@ -5,17 +5,21 @@ using Random = System.Random;
 
 public class PointsController : MonoBehaviour
 {
+    public GameData data;
+
     public ProgressBar hungerBar;
     public ProgressBar thirstBar;
     public TextMeshProUGUI pointsCounter;
 
-    private bool isFoodCollision = false;
-    private bool isDrinkCollision = false;
-
     private int foodPickupOffset = 0;
     private int drinkPickupOffset = 0;
 
-    public GameData data;
+    private enum CollisionType
+    {
+        Food, Drink, Dice, None
+    }
+
+    private CollisionType colType = CollisionType.None;
 
     private void Start()
     {
@@ -45,28 +49,43 @@ public class PointsController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        int newPoints = 0;
+
         if (other.name.ToLower().EndsWith("food"))
         {
-            isFoodCollision = true;
+            colType = CollisionType.Food;
+            newPoints = 25;
         }
         else if (other.name.ToLower().EndsWith("drink"))
         {
-            isDrinkCollision = true;
+            colType = CollisionType.Drink;
+            newPoints = 25;
         }
         else if (other.name.ToLower().Contains("dice"))
         {
+            colType = CollisionType.Dice;
             foreach (GameData.Pickup pickup in data.currTrial.Pickups)
             {
                 if (other.name.ToLower().Equals(pickup.PickupName.ToLower()))
                 {
                     // Run the probabilities
-                    int newPoints = DeterminePointsUsingProbabilities(pickup.WinChance, pickup.LoseChance, pickup.WinPoints, pickup.LosePoints);
+                    newPoints = DeterminePointsUsingProbabilities(pickup.WinChance, pickup.LoseChance, pickup.WinPoints, pickup.LosePoints);
                     data.currTrial.PointsCollected += newPoints;
                     break;
                 }
 
             }
         }
+        else
+        {
+            colType = CollisionType.None;
+        }
+
+        if (data.currTrial.TrackPickups)
+        {
+            ShowPickupPopup(newPoints);
+        }
+
         Destroy(other.gameObject);
     }
 
@@ -89,15 +108,18 @@ public class PointsController : MonoBehaviour
 
     private void UpdateProgressBars()
     {
-        if (isFoodCollision)
+        switch (colType)
         {
-            foodPickupOffset += 25;
-            isFoodCollision = false;
-        }
-        else if (isDrinkCollision)
-        {
-            drinkPickupOffset += 25;
-            isDrinkCollision = false;
+            case CollisionType.Food:
+                foodPickupOffset += 25;
+                break;
+            case CollisionType.Drink:
+                drinkPickupOffset += 25;
+                break;
+            case CollisionType.Dice:
+                break;
+            default:
+                break;
         }
 
         int newBarValue = (int)Math.Round(100f - (data.currTrial.Timer.ElapsedMilliseconds / 1000f));
@@ -113,10 +135,40 @@ public class PointsController : MonoBehaviour
         {
             data.currTrial.resourcesRemain = false;
         }
+
+        // Reset Collision
+        colType = CollisionType.None;
     }
 
     private void UpdatePointsCounter()
     {
         pointsCounter.text = "Points: " + data.currTrial.PointsCollected;
+    }
+
+    private void ShowPickupPopup(int points)
+    {
+        string popupText = "";
+        Color textColor = new Color(0f, 0f, 0f);
+
+        switch (colType)
+        {
+            case CollisionType.Food:
+                popupText = points + " food";
+                textColor = Color.green;
+                break;
+            case CollisionType.Drink:
+                popupText = points + " drink";
+                textColor = new Color(0, 140, 255);
+                break;
+            case CollisionType.Dice:
+                popupText = points + " points";
+                textColor = Color.yellow;
+                break;
+            default:
+                // No proper collision
+                return;
+        }
+
+        GameObject.Find("PickupPopup").GetComponent<PopupController>().SetTextAndShow(popupText, textColor);
     }
 }

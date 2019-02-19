@@ -86,6 +86,7 @@
             "Header": "Explore!",
             "TrackResources" : true,
             "TrackPoints": true,
+            "TrackPickups": true,
             "LockByTime": 8000,
             "Roads": [
                 {

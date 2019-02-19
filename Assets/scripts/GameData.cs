@@ -48,6 +48,7 @@ public class GameData
         public string Header; // <---- general instruction (should be in middle of HUD) (OM).
         public bool TrackResources; // Turn the resource system on/off.
         public bool TrackPoints; // Turn the points system on/off.
+        public bool TrackPickups; // Turn the pickup tracking system on/off.
         public float LockByTime; // Lock all user input after <LockByTime> ms have passed.
         public List<Road> Roads; // <---- what prefabs are used. first stretch that is generated is road1 prefab and then road2 prefab these names correspond with prefab names in UNITY
         public string FileLocation; // Path to image file used for heads up display.

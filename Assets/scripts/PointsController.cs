@@ -128,6 +128,7 @@ public class PointsController : MonoBehaviour
         if (hungerBar.BarValue == 0 || thirstBar.BarValue == 0)
         {
             data.currTrial.resourcesRemain = false;
+            if (!data.currTrial.KeepPointsAfterResourceDepletion) data.currTrial.PointsCollected = 0;
         }
 
         // Reset Collision

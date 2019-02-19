@@ -87,6 +87,7 @@
             "TrackResources" : true,
             "TrackPoints": true,
             "TrackPickups": true,
+            "KeepPointsAfterResourceDepletion": true,
             "LockByTime": 8000,
             "Roads": [
                 {

@@ -148,20 +148,28 @@ public class PointsController : MonoBehaviour
     private void ShowPickupPopup(int points)
     {
         string popupText = "";
+        string pointsStr = points.ToString();
+
+        // Display '+' if points are positive
+        if (points >= 0)
+        {
+            pointsStr = "+" + pointsStr;
+        }
+
         Color textColor = new Color(0f, 0f, 0f);
 
         switch (colType)
         {
             case CollisionType.Food:
-                popupText = points + " food";
+                popupText = pointsStr + " food";
                 textColor = Color.green;
                 break;
             case CollisionType.Drink:
-                popupText = points + " drink";
+                popupText = pointsStr + " drink";
                 textColor = new Color(0, 140, 255);
                 break;
             case CollisionType.Dice:
-                popupText = points + " points";
+                popupText = pointsStr + " points";
                 textColor = Color.yellow;
                 break;
             default:

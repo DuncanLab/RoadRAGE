@@ -2187,7 +2187,7 @@ GameObject:
   - component: {fileID: 65667862333379016}
   - component: {fileID: 114419383341058018}
   m_Layer: 0
-  m_Name: ColaCan_drink
+  m_Name: Drink1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5198,7 +5198,7 @@ GameObject:
   - component: {fileID: 65421090817872160}
   - component: {fileID: 114125657354053444}
   m_Layer: 0
-  m_Name: strawberry_food
+  m_Name: Food1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

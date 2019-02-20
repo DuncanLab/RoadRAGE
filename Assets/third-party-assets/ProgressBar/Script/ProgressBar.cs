@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +15,7 @@ public class ProgressBar : MonoBehaviour
     public int TitleFontSize = 10;
 
     [Header("Bar Setting")]
-    public Color BarColor;   
+    public Color BarColor;
     public Color BarBackGroundColor;
     public Sprite BarBackGroundSprite;
     [Range(1f, 100f)]
@@ -31,7 +30,7 @@ public class ProgressBar : MonoBehaviour
     private Image bar, barBackground;
     private float nextPlay;
     private AudioSource audiosource;
-    private Text txtTitle;
+    private TextMeshProUGUI txtTitle;
     private float barValue;
     public float BarValue
     {
@@ -46,13 +45,13 @@ public class ProgressBar : MonoBehaviour
         }
     }
 
-        
+
 
     private void Awake()
     {
         bar = transform.Find("Bar").GetComponent<Image>();
         barBackground = GetComponent<Image>();
-        txtTitle = transform.Find("Text").GetComponent<Text>();
+        txtTitle = transform.Find("Text").GetComponent<TextMeshProUGUI>();
         barBackground = transform.Find("BarBackground").GetComponent<Image>();
         audiosource = GetComponent<AudioSource>();
     }
@@ -60,12 +59,12 @@ public class ProgressBar : MonoBehaviour
     private void Start()
     {
         txtTitle.text = Title;
-        txtTitle.color = TitleColor;
-        txtTitle.font = TitleFont;
-        txtTitle.fontSize = TitleFontSize;
+        //txtTitle.color = TitleColor;
+        //txtTitle.font = TitleFont;
+        //txtTitle.fontSize = TitleFontSize;
 
         bar.color = BarColor;
-        barBackground.color = BarBackGroundColor; 
+        barBackground.color = BarBackGroundColor;
         barBackground.sprite = BarBackGroundSprite;
 
         UpdateValue(barValue);
@@ -93,16 +92,16 @@ public class ProgressBar : MonoBehaviour
     private void Update()
     {
         if (!Application.isPlaying)
-        {           
+        {
             UpdateValue(50);
-            txtTitle.color = TitleColor;
-            txtTitle.font = TitleFont;
-            txtTitle.fontSize = TitleFontSize;
+            //txtTitle.color = TitleColor;
+            //txtTitle.font = TitleFont;
+            //txtTitle.fontSize = TitleFontSize;
 
             bar.color = BarColor;
             barBackground.color = BarBackGroundColor;
 
-            barBackground.sprite = BarBackGroundSprite;           
+            barBackground.sprite = BarBackGroundSprite;
         }
         else
         {

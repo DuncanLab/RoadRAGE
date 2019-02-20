@@ -47,13 +47,29 @@ public class GameData
         public System.Diagnostics.Stopwatch Timer; // Use stopwatch for it's accuracy.
         public string Header; // <---- general instruction (should be in middle of HUD) (OM).
         public bool TrackResources; // Turn the resource system on/off.
+        public bool TrackPoints; // Turn the points system on/off.
+        public bool TrackPickups; // Turn the pickup tracking system on/off.
+        public bool KeepPointsAfterResourceDepletion; // Whether user retains their points after resources have been depleted.
         public float LockByTime; // Lock all user input after <LockByTime> ms have passed.
         public List<Road> Roads; // <---- what prefabs are used. first stretch that is generated is road1 prefab and then road2 prefab these names correspond with prefab names in UNITY
         public string FileLocation; // Path to image file used for heads up display.
         public float TimeAllotted; // Amount of time in seconds that the trial will continue for. <--- when this is equal to -1 it means they need to press "SPACE" (OM). <---- When this is any positive number that means it remains on the screen for that long(OM)
         public bool resourcesRemain; // Whether or not the user still has resources left, if not we end the trial.
+        public int PointsCollected; // Number of points the user has collected.
+        public List<Pickup> Pickups; // A list of all the pickup values for the trial
         public List<Event> Events; // List of all spawn events for the trial.
         public List<ScoreAssignment> FinalScoreAssignments; //  <--- depending on what lane they end in, they recieve point value associated with lane.
+    }
+
+    [Serializable]
+    public class Pickup
+    {
+        public string PickupName; // The name of the pickup item, this must match the object name in the prefab
+        public double WinChance; // The probability of winning from 0 to 1
+        public double LoseChance; // The probability of losing from 0 to 1
+        public int WinPoints; // Points to be won
+        public int LosePoints; // Points to be lost
+
     }
 
     [Serializable]

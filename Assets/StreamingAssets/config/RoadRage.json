@@ -85,6 +85,9 @@
             "TrialName": "Stage1",
             "Header": "Explore!",
             "TrackResources" : true,
+            "TrackPoints": true,
+            "TrackPickups": true,
+            "KeepPointsAfterResourceDepletion": true,
             "LockByTime": 8000,
             "Roads": [
                 {
@@ -115,6 +118,25 @@
                     "PrefabName": "road_grass_400m_WP_straight",
                     "TimeToExist": 20000
                 }
+            ],
+            "Pickups": [
+                {
+                    "PickupName": "Dice1",
+                    "WinChance": 0.5,
+                    "LoseChance": 0.5,
+                    "WinPoints": 25,
+                    "LosePoints": -25
+                },
+                {
+                    "PickupName": "Food1",
+                    "WinPoints": 35,
+                    "LosePoints": -25
+                },
+                {
+                    "PickupName": "Drink1",
+                    "WinPoints": 45,
+                    "LosePoints": -25
+                }                                
             ],
             "TimeAllotted": 85000,
             "Events": [

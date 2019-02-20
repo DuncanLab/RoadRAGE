@@ -18,12 +18,12 @@ install:
 - cat /etc/hosts
 - ./BuildScripts/install-unity.sh
 
-# script:
-# - ./travis-build/build.sh
-# - ./travis-build/run-tests.sh
+script:
+- ./BuildScripts/build.sh
+# - ./BuildScripts/run-tests.sh
 
 # after_success:
-# - ./travis-build/export-unity-package.sh
+# - ./BuildScripts/export-unity-package.sh
 
 # before_deploy:
 # - DEPLOY_UNITYPACKAGE="$(ls -a release/*.zip | head -n 1)"

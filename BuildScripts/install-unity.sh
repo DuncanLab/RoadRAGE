@@ -3,8 +3,10 @@
 # See https://unity3d.com/get-unity/download/archive
 # to get download URLs
 UNITY_DOWNLOAD_CACHE="$(pwd)/unity_download_cache"
-UNITY_OSX_PACKAGE_URL="https://download.unity3d.com/download_unity/1d952368ca3a/UnityDownloadAssistant.dmg"
-UNITY_WINDOWS_TARGET_PACKAGE_URL="https://beta.unity3d.com/download/46dda1414e51/MacEditorTargetInstaller/UnitySetup-Windows-Support-for-Editor-2017.2.0f3.pkg"
+UNITY_OSX_PACKAGE_URL="https://download.unity3d.com/download_unity/76b3e37670a4/MacEditorInstaller/Unity.pkg"
+UNITY_WINDOWS_TARGET_PACKAGE_URL="https://download.unity3d.com/download_unity/76b3e37670a4/MacEditorTargetInstaller/UnitySetup-Windows-Mono-Support-for-Editor-2018.3.5f1.pkg"
+UNITY_MAC_TARGET_PACKAGE_URL="https://download.unity3d.com/download_unity/76b3e37670a4/MacEditorTargetInstaller/UnitySetup-Mac-IL2CPP-Support-for-Editor-2018.3.5f1.pkg"
+UNITY_LINUX_TARGET_PACKAGE_URL="https://download.unity3d.com/download_unity/76b3e37670a4/MacEditorTargetInstaller/UnitySetup-Linux-Support-for-Editor-2018.3.5f1.pkg"
 
 
 # Downloads a file if it does not exist
@@ -32,11 +34,11 @@ install() {
 	sudo installer -dumplog -package $UNITY_DOWNLOAD_CACHE/`basename "$PACKAGE_URL"` -target /
 }
 
-
-
 echo "Contents of Unity Download Cache:"
 ls $UNITY_DOWNLOAD_CACHE
 
 echo "Installing Unity..."
-install $UNITY_OSX_PACKAGE_URL
+installdmg $UNITY_OSX_PACKAGE_URL
 install $UNITY_WINDOWS_TARGET_PACKAGE_URL
+install $UNITY_MAC_TARGET_PACKAGE_URL
+install $UNITY_LINUX_TARGET_PACKAGE_URL

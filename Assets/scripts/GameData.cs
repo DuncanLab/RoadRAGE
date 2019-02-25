@@ -23,6 +23,8 @@ public class GameData
     public List<Trial> TrialList; // All trials.
     public List<int> currTrialOrder; // The order of trials within the current block.
 
+    public string resultsFilePath;
+
     [Serializable]
     public class GlobalGameData
     {

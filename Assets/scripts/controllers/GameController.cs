@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.scripts;
+using CsvHelper;
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +13,9 @@ public class GameController : MonoBehaviour
 
     // Game objects
     public GameObject LoadImagePanel;
+
+    StreamWriter writer;
+    CsvWriter csv;
 
     // Use this for initialization
     void Start()
@@ -34,6 +39,10 @@ public class GameController : MonoBehaviour
             LoadNextTrial();
             data.isGameStarted = true;
         }
+
+        writer = new StreamWriter(data.resultsFilePath, true);
+        csv = new CsvWriter(writer, true);
+        csv.Configuration.RegisterClassMap(typeof(TrialMap));
     }
 
     private void CheckResourceState()
@@ -59,7 +68,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     // Used for the main game loop: moving through
     // blocks and trials
     void Update()
@@ -98,6 +106,22 @@ public class GameController : MonoBehaviour
             {
                 LoadNextTrial();
             }
+        }
+
+        csv.WriteRecord(data.currTrial);
+        csv.NextRecord();
+    }
+
+    private void OnDestroy()
+    {
+        if (writer != null)
+        {
+            writer.Dispose();
+        }
+
+        if (csv != null)
+        {
+            csv.Dispose();
         }
     }
 

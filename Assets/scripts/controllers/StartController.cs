@@ -1,8 +1,12 @@
-﻿using SFB;
+﻿using Assets.scripts;
+using CsvHelper;
+using SFB;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
+using static GameData;
 
 public class StartController : MonoBehaviour
 {
@@ -68,6 +72,16 @@ public class StartController : MonoBehaviour
         var firstBlock = data.BlockList[firstBlockIndex];
         var firstTrialIndex = data.BlockList[firstBlockIndex].TrialOrder[0] - 1;
         var firstTrial = data.TrialList[firstTrialIndex];
+
+        // Write headers into csv file
+        data.resultsFilePath = Util.GenerateResultsFilePath();
+        using (var writer = new StreamWriter(data.resultsFilePath))
+        using (var csv = new CsvWriter(writer))
+        {
+            csv.Configuration.RegisterClassMap(typeof(TrialMap));
+            csv.WriteHeader(typeof(Trial));
+            csv.NextRecord();
+        }
 
         // A file location is specified so we assume it's instructions
         if (firstTrial.FileLocation != null)
